@@ -1,0 +1,1121 @@
+@import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
+@import url("https://fonts.googleapis.com/css?family=Product+Sans");
+@import url("https://fonts.googleapis.com/css?family=Google+Sans");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,400&display=swap');
+
+body{
+    scroll-behavior: smooth;
+}
+
+.green-button {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+.green-button:hover {
+  background-color: #009300;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.absolute-right {
+  position: relative;
+  top: 0;
+  right: 0;
+  margin-top: -10px;
+  margin-right: 20px;
+}
+
+.form-error{
+    color: red;
+}
+
+.form-icon{
+    width: 40px;
+    margin-bottom: 0.5rem;
+}
+
+
+.topnav{
+    display: inline-block;
+    vertical-align: top;
+    width: 100vw;
+    background-color: #292A2D;
+}
+
+.navbar-icon{
+    float: left;
+}
+.nav-text{
+    float: left;
+    position: relative;
+    vertical-align: middle;
+    margin-top: 0.75rem;
+    font-family: "Product Sans";
+    color: #FFFFFF;
+    padding-left: 1rem;
+}
+
+.nav-link{
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: "Roboto Condensed";
+    font-size: 110%;
+}
+
+
+
+.float-right{
+    float: right;
+}
+
+.logout-icon{
+    width: 40px;
+    cursor: pointer;
+}
+
+.nav-padding{
+    padding: 10px 20px 10px;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100%;
+    background-color: #1a1a1a;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: left 0.3s ease;
+    padding-top: 60px;
+    color: #ffffff;
+    z-index: 2;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.sidebar a:hover {
+    background-color: green;
+}
+
+.sidebar-close {
+    position: absolute;
+    top: 20px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 34px;
+    color: #ffffff;
+}
+
+.site-title {
+    margin: 20px 20px 10px 20px;
+    font-size: 150%;
+}
+
+.nickname {
+    color: #ffffff;
+    margin: 10px 20px 20px 20px;
+    font-size: 28px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Скрытие текста и отображение многоточия, если никнейм слишком длинный */
+}
+
+label{
+    font-family: "Roboto Condensed";
+}
+
+textarea{
+    width: 75%;
+}
+
+.nav-ham{
+    float: left;
+    color: white;
+    font-size: 1.8rem;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.delete-nav {
+    position: fixed;
+    margin-top: 400px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.create-form {
+    width: 100vw;
+    float: left;
+}
+
+.forms-label{
+    font-family: "Google Sans";
+    margin: 10px 10px 5px 10px;
+}
+
+.form-template-box{
+    margin: 5px 30px 10px 0;
+    float: left;
+    background-color: #333333;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    width: 11em;
+    height: 12em;
+    margin-left: 10px;
+}
+
+.descrip{
+    font-size: 90%;
+    font-weight: normal;
+    font-family: "Product Sans";
+}
+
+.form-template-box img{
+    width: 2.5em;
+    height: 2.5em;
+    float: left;
+    padding: 15px;
+}
+
+.form-template-box:hover{
+    background-color: #009300;
+}
+
+.form-box {
+    width: 250px;
+    border: 1px solid rgb(182, 179, 179);
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    position: relative;
+    background-color: #333333; /* Keep the background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    transition: transform 0.3s ease; /* Add a smooth transition effect */
+    border-radius: 10px;
+}
+
+.form-box:hover {
+    border: 1px solid #009300;
+    transform: scale(1.05); /* Enlarge the box on hover */
+}
+
+.form-list{
+    padding: 10px;
+    max-height: 86.5vh; /* Set the maximum height for the list */
+    overflow-y: auto; /* Enable vertical scrollbar when the content overflows */
+    overflow-x: hidden; /* Hide horizontal scrollbar if not needed */
+}
+
+.no-forms-message {
+    text-align: center;
+    font-family: "Google Sans";
+    padding: 20px;
+    background-color: #1a1a1a;
+    color: #FFFFFF;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.no-forms-message a {
+    color: #009300;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.form-option-icon{
+    cursor: pointer;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+html::-webkit-scrollbar {
+  background-color: transparent;
+    width: 0%;
+}
+
+
+.container::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+    .form-list::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    .form-list::-webkit-scrollbar-thumb {
+        background-color: #009300; /* Set the color of the thumb */
+        border-radius: 6px; /* Set the border radius of the thumb */
+    transition: transform 0.3s ease;
+    }
+
+    .form-list::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+.form-list button {
+    margin-top: auto;
+    margin-left: 0;
+}
+
+.form-list-title {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.form-list-title-text {
+    text-align: center;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    font-family: "Google Sans";
+    margin: 5px;
+    color: #FFFFFF;
+}
+
+.form-list-timestamp {
+    margin: 5px;
+    color: darkgrey;
+}
+
+.form-list-link {
+    color: #000000;
+    text-decoration: none;
+    float: left;
+}
+
+.error-page{
+    text-align: center;
+    font-family: "Roboto Condensed";
+}
+
+.form-topnav{
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 1px;
+    overflow: hidden;
+    background-color: #292A2D;
+}
+
+.nav-form-title{
+    width: 300px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+}
+
+.edit-on-click{
+    border: none;
+    font-size: 1.2rem;
+    transition: 1s;
+    overflow-y: hidden;
+    border-bottom: transparent;
+}
+
+.edit-on-click:focus{
+    outline: none !important;
+    border-bottom: 1px solid darkgrey;
+}
+
+.nav-form-menu-icon{
+    width: 1.5rem;
+    margin: 10px 15px;
+    cursor: pointer;
+    float: left;
+}
+
+.send-form-btn{
+    position: relative;
+    background-color: #009300;
+    color: #ddd;
+    font-size: 1rem;
+    font-family: "Google Sans";
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    cursor: pointer;
+    float: left;
+    margin: 0.2px 15px;
+}
+
+.question-box{
+    background-color: #FFF;
+}
+
+.form-title{
+    font-size: 2rem;
+    font-family: "Google Sans";
+    font-weight: normal;
+    margin: 10px;
+    width: -webkit-fill-available;
+    width: -moz-available;
+}
+
+.form-description {
+    font-size: 1rem;
+    font-family: "Roboto Condensed";
+    margin: 10px;
+    max-width: 100%; /* Устанавливаем максимальную ширину в процентах от родительского элемента (question-box) */
+    box-sizing: border-box; /* Учитываем отступы и границы в общей ширине элемента */
+}
+
+.form-description:active {
+        background-color: #ebebeb;
+}
+
+.form-title-box{
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 6;
+    padding: calc(10vh - 20px) 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+.modal-content::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+    .modal-content::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    .modal-content::-webkit-scrollbar-thumb {
+        background-color: #7c7c7c; /* Set the color of the thumb */
+        border-radius: 6px; /* Set the border radius of the thumb */
+    transition: transform 0.3s ease;
+    }
+
+    .modal-content::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+.modal-content{
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+.modal-close-btn{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-close-btn:hover, .modal-close-btn:focus{
+    color: #202124;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-title{
+    font-family: "Google Sans";
+    font-size: 1.2rem;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(233, 232, 232);
+    margin-bottom: 0;
+}
+
+.modal-subtitle{
+    font-family: "Roboto Condensed";
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.setting-form-label{
+    font-family: "Roboto Condensed";
+}
+
+.modal-division{
+    margin: 30px 0;
+}
+.confirmation-msg-input{
+    width: -webkit-fill-available;
+    width: -moz-available;
+    border-bottom: 1px solid #202124;
+    min-height: 20px !important;
+    width: 100%;
+    max-width: 100%;
+}
+.confirmation-msg-input:hover{
+    background-color: #e6e6e6;
+}
+.setting-options{
+    position: relative;
+}
+.setting-option-cancel{
+    margin: 20px 10px;
+    cursor: pointer;
+    color: #84878b;
+
+}
+
+.btn-save-setting{
+    background-color: #009300;
+    color: #ddd;
+    font-size: 1rem;
+    font-family: "Google Sans";
+    cursor: pointer;
+}
+
+.btn-save-setting:hover{
+    background-color: darkgreen;
+    transition: background-color 0.3s ease;
+}
+
+.setting-preview-form, .setting-preview-form a{
+    cursor: pointer;
+    color: #bbb;
+    font-family: "Google Sans";
+    text-decoration: none;
+}
+
+.setting-preview-form:hover{
+    opacity: .5;
+}
+
+.danger-zone{
+    font-weight: bold;
+    font-family: "Google Sans";
+    font-size: 1.4rem;
+}
+
+.delete-form-title{
+    margin: 0;
+    font-family: "Roboto Condensed";
+}
+
+.delete-form-description{
+    margin: 0;
+    font-family: "Poppins";
+}
+
+.delete-form-btn {
+    margin-left: 2px;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif; /* Добавил запасной шрифт */
+    padding: 5px 10px; /* Изменил отступы для более сбалансированного вида */
+    background-color: #b30000; /* Изменил цвет фона на красный */
+    color: #fff;
+    border: 2px solid darkred; /* Изменил цвет границы на красный */
+    border-radius: 5px; /* Добавил скругление углов */
+    cursor: pointer; /* Добавил указание на возможность нажатия */
+    transition: background-color 0.3s ease; /* Добавил плавный переход цвета фона */
+}
+
+/* Добавил стиль для состояния наведения */
+.delete-form-btn:hover {
+    background-color: darkred; /* Изменил цвет фона при наведении */
+}
+
+.delete-form-list {
+    text-align: center;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif; /* Добавил запасной шрифт */
+    padding: 5px 10px; /* Изменил отступы для более сбалансированного вида */
+    background-color: #b30000; /* Изменил цвет фона на красный */
+    color: #fff;
+    border: 2px solid darkred; /* Изменил цвет границы на красный */
+    border-radius: 5px; /* Добавил скругление углов */
+    cursor: pointer; /* Добавил указание на возможность нажатия */
+    transition: background-color 0.3s ease; /* Добавил плавный переход цвета фона */
+}
+
+/* Добавил стиль для состояния наведения */
+.delete-form-list:hover {
+    background-color: darkred; /* Изменил цвет фона при наведении */
+}
+
+.select-all-btn {
+  /* Здесь вы можете задать стили для вашей кнопки "Select All" */
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #00a600;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+    cursor: pointer; /* Добавил указание на возможность нажатия */
+    transition: background-color 0.3s ease; /* Добавил плавный переход цвета фона */
+}
+
+/* Дополнительные стили для состояний кнопки, если это необходимо */
+.select-all-btn:hover {
+  background-color: green;
+}
+
+.reselect-all-btn {
+  /* Здесь вы можете задать стили для вашей кнопки "Select All" */
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: cornflowerblue;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+    cursor: pointer; /* Добавил указание на возможность нажатия */
+    transition: background-color 0.3s ease; /* Добавил плавный переход цвета фона */
+}
+
+/* Дополнительные стили для состояний кнопки, если это необходимо */
+.reselect-all-btn:hover {
+  background-color: steelblue;
+}
+
+
+
+.question-options{
+    background-color: #292A2D;
+    position: fixed;
+    bottom: 10%;
+    border: 1px solid #84878b;
+    max-height: 35px;
+    align-items: center;
+    right: 15%;
+    padding: 3px;
+    border-radius: 10px;
+}
+
+.question-options img {
+    max-width: 35px; /* Установите максимальную ширину картинки */
+    max-height: 35px; /* Установите максимальную высоту картинки */
+}
+
+
+.collect-email{
+    margin: 10px;
+}
+
+.question-title{
+    font-family: "Google Sans";
+    font-size: 1.3rem;
+    font-weight: normal;
+}
+
+.require-star{
+    color: #E71C23;
+}
+
+.require-email-edit{
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid #84878b;
+    width: 50%;
+    cursor: not-allowed;
+}
+
+.collect-email-desc{
+    color: #70757a;
+    margin: 10px 0;
+}
+
+.open-setting{
+    cursor: pointer;
+}
+
+.question-title{
+    font-family: "Google Sans";
+    font-size: 1.5rem;
+    width: 65%;
+}
+
+.question-type-select{
+    width: calc(15% - 8px);
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    height: 30px;
+    float: right;
+}
+
+.question-type-select option:checked{
+    font-weight: bold;
+}
+
+.question-type-select::-ms-expand{
+    display: none;
+}
+
+.choices{
+    margin: 10px 0;
+}
+
+.choice{
+    margin: 5px 0;
+    font-family: "Roboto Condensed";
+}
+
+.add-option {
+    margin-top: 10px;
+    cursor: pointer;
+    color: #70757a;
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 12px;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #70757a;
+    border-radius: 5px;
+    transition: color 0.3s ease;
+}
+
+.add-option:hover {
+    background-color: #70757a;
+    color: #fff;
+    border-color: #fff;
+}
+
+
+.edit-choice{
+    display: inline;
+    width: 20%;
+    border: none;
+    overflow-y: hidden;
+    font-family: "Google Sans";
+    border-bottom: 1px solid #70757a;
+}
+
+.remove-option{
+    display: inline;
+    font-size: 1.3rem;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.choice-option{
+    padding: 10px;
+    display: block;
+    border-top: 1px solid #ccc;
+}
+
+.required{
+    font-family: "Roboto Condensed";
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.toggle-switch input {
+  display: none;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2.1px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #009300;
+}
+
+.toggle-switch input:focus + .toggle-slider {
+  box-shadow: 0 0 1px #009300;
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+
+.answers{
+    margin: 5px;
+}
+
+.short-answer{
+    font-family: "Poppins", "Arial";
+    width: 50%;
+    border: none;
+    padding: 5px;
+    border-bottom: 1px solid #70757a;
+}
+
+.short-answer:active {
+        background-color: #ebebeb;
+}
+
+.long-answer {
+    width: 100%; /* Устанавливаем ширину в процентах от родительского элемента */
+    max-width: 100%;
+    box-sizing: border-box; /* Учитываем отступы и границы в общей ширине элемента */
+    border: none;
+    padding: 5px;
+    font-family: "Poppins", "Arial";
+    border-bottom: 1px solid #70757a;
+}
+
+.long-answer:active {
+        background-color: #ebebeb;
+}
+
+.question-option-icon{
+    width: 1.5rem;
+    cursor: pointer;
+}
+.form-navigation{
+    margin: auto;
+    font-family: "Google Sans";
+}
+
+.navigation{
+    margin-top: 15px;
+    text-align: center;
+}
+
+.form-navigation .active{
+    color: #35D219;
+    font-weight: bold;
+    font-family: "Google Sans";
+}
+
+.score-w{
+    width: 60px;
+}
+
+.question-score-num {
+    max-width: calc(25% - 8px);
+    display: flex;
+    justify-content: flex-end; /* Используйте flex-end для выравнивания контейнера вправо */
+    font-family: "Google Sans";
+    margin: 1rem;
+    margin-left: auto; /* Используйте auto для распределения оставшегося пространства справа */
+}
+
+
+.input-score{
+    width: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(0, 132, 223);
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.question-title-score{
+    font-family: "Google Sans";
+    display: inline-block;
+    width: 75%;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 1rem;
+}
+
+.answer-key, .feedback{
+    margin: 5px 10px;
+}
+.answer-key-title, .feedback-title{
+    margin: 0;
+    font-family: "Google Sans";
+    display: inline-block;
+}
+
+.multiple-choice{
+    width: 100%;
+    margin: 5px;
+}
+
+.btn-submit{
+    background-color: #009300;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+
+.required-info{
+    color: #E71C23;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.edit-form-link{
+    width: 3rem;
+    height: 3rem;
+    position: fixed;
+    bottom: 50px;
+    right: 3%;
+    background-color: #202124;
+    border: 1px solid #FFFFFF;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+
+.response-title{
+    font-family: "Google Sans";
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+.score-title{
+    font-family: "Google Sans";
+    margin: 10px;
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+.question-title{
+    font-family: "Google Sans";
+    font-size: 1.5rem;
+}
+
+.view-score-btn{
+    position: relative;
+    background-color: #009300;
+    color: #ddd;
+    font-family: "Google Sans";
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    margin: 5px 15px;
+}
+
+.feedback{
+    margin: 10px 5px;
+}
+
+.feedback-title{
+    font-family: "Roboto Condensed";
+    font-size: 1.1rem;
+    font-weight: normal;
+}
+
+.edit-response-link{
+    margin-left: 15px;
+}
+
+.form-template-label{
+    font-family: "Google Sans";
+    margin: 10px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.form-animate {
+    position: relative;
+    display: block;
+    overflow: hidden;
+}
+
+.input-animate {
+    width: -webkit-fill-available;
+    width: -moz-available;
+    border: none;
+    display: inline-block;
+    outline: none;
+    padding: 10px;
+    font-size: 20px;
+    background-color: transparent;
+    border-bottom: 1px solid #7c7c7c;
+}
+
+.input-onFocus {
+    transition: all 0.5s;
+    display: inline-block;
+    bottom: 0;
+    left: -100%;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: #1a73e8;
+}
+
+.form-animate, .input-animate {
+    color: inherit;
+}
+
+.form-animate .input-animate:focus + .input-onFocus {
+    left: 0;
+}
+
+.response-summary{
+    margin: .5rem 1rem;
+}
+
+.diag-container{
+    box-sizing: border-box;
+    max-width: 100%;
+    border: none;
+    margin-top: 60px;
+}
+
+.response-summary-title{
+    font-family: "Google Sans";
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+blockquote{
+    font-size: 1.3em;
+    font-family: Arial, sans-serif;
+    font-style: oblique;
+    color: #555555;
+    padding: 8px;
+    border-left:8px solid #009300;
+    position: relative;
+    background: #dedede;
+}
+
+blockquote span{
+    display:block;
+    color:#333333;
+    font-style: normal;
+    font-weight: bold;
+    margin-top:1em;
+}
+
+.pie-chart{
+    width: 70% !important;
+    height: 70% !important;
+    margin: auto;
+}
+
+.header-search {
+    margin-top: -5px;
+    text-align: center;
+    width: 85%;
+}
+
+.header-search input {
+    width: 300px; /* Уменьшаем ширину строки поиска */
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px; /* Уменьшаем отступ между строкой поиска и кнопкой */
+}
+
+.header-search button {
+    background-color: #009300;
+    color: white;
+    padding: 8px 10px; /* Уменьшаем отступы кнопки */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+@media only screen and (max-width: 878px){
+    .nav-form-title{
+        width: 100px;
+    }
+
+    .form-list-link, .form-box{
+        width: -webkit-fill-available;
+        width: -moz-available;
+    }
+    .modal{
+        padding: 0;
+    }
+
+    .modal-content{
+        max-width: none;
+        max-height: none;
+        width: -webkit-fill-available;
+        width: -moz-available;
+        height: calc(100% - 40px);
+        border-radius: 0%;
+    }
+    .question-title, .question-title-score{
+        width: 100%;
+    }
+    .question-type-select{
+        width: 100%;
+        display: block;
+    }
+    .nav-text{
+        display: none;
+    }
+    .big-screen{
+        display: none;
+    }
+    .question-score-num{
+        max-width: 100%;
+        width: 100%;
+    }
+    .input-score{
+        width: 50px;
+    }
+}
+
+@media only screen and (min-width: 878px){
+    .small-screen{
+        display: none;
+    }
+}

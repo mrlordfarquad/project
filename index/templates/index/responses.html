@@ -1,0 +1,264 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% load get_property %}
+{% load generate_color %}
+{% load count %}
+{% block title %}{{form.title}}'s response - Dazzle Forms{% endblock %}
+{% block script %}
+<script src="{% static 'index/responses.js' %}" defer></script>
+<script src="{% static 'lib/cookie.min.js' %}"></script>
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="form-topnav">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+        <a href = "/">
+            <img src = "{% static 'Icon/site-icon.png' %}" alt = "Dazzle Forms Icon" class="navbar-icon form-icon" title = "Формы" />
+        </a>
+        <span class="nav-text nav-form-title input-form-title">{{form.title}}</span>
+        <div class="form-navigation center">
+            {% if form.is_quiz %}
+            <span class="col-4 navigation" style="width: 90px"><a href = "{% url 'edit_form' form.code %}" class="link">Вопросы</a></span>
+            <span class="col-4 navigation score score-w"><a href="{% url 'score' form.code %}" class="link">Оценка</a></span>
+            <span class="col-4 navigation active" style="width: 90px">Ответы</span>
+            {% else %}
+            <span class="col-6 navigation" style="width: 90px"><a href = "{% url 'edit_form' form.code %}" class="link">Вопросы</a></span>
+            <span class="col-6 navigation active" style="width: 90px">Ответы</span>
+            {% endif %}
+        </div>
+        <div class="float-right">
+            <img src="{% static 'Icon/colors.png' %}" alt="Colors icon" id="customize-theme-btn" title = "Настройки цвета" class="nav-form-menu-icon" />
+            <a href="{% url 'view_form' form.code %}">
+            <img src="{% static 'Icon/view.png' %}" alt="Preview icon" title = "Просмотр" class="nav-form-menu-icon big-screen" />
+            </a>
+            <img src="{% static 'Icon/send-form.png' %}" alt ="Send icon" title = "Поделиться" class="nav-form-menu-icon small-screen" id="send-form-btn" />
+            <img src="{% static 'Icon/settings.png' %}" alt="Settings icon" title = "Настройки" class="nav-form-menu-icon open-setting" />
+            <button class = "btn send-form-btn big-screen" title = "Поделиться" id="send-form-btn">Поделиться</button>
+        </div>
+    </div>
+    <div class="container" style="max-height: 91.8vh; overflow-y: auto; overflow-x: hidden;">
+        <span id="bg-color" style="display: none;">{{form.background_color}}</span>
+        <span id="text-color" style="display: none;">{{form.text_color}}</span>
+        <div class="margin-top-bottom box question-box" id="responses">
+            {% if responses.count > 0 %}
+            <h1 class="response-title">Individual Response:</h1>
+                <input type="text" id="response-search" style="border-radius: 5px;" placeholder="Поиск">
+            <ul class="modal-content" style="margin: 10px; padding: 0 25px; max-height: 40vh; overflow-y: auto; overflow-x: hidden;">
+                {% for i in responses %}
+                    {% if form.collect_email %}
+                        <li><a href="{% url 'response' form.code i.response_code %}" class="bl-link">
+                            Ответ {{ request.user.email }}'s response
+                        </a></li>
+                    {% elif form.authenticated_responder %}
+                        <li><a href="{% url 'response' form.code i.response_code %}" class="bl-link">
+                            {% if user.is_authenticated %}
+                    {% with profile_image=user.image_info.first %}
+                        {% if profile_image %}
+                            <img id="profileImage" src="{{ profile_image.image_url }}" alt="Фото профиля" width="15" height="15">
+                        {% else %}
+                            <img id="profileImage" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" alt="Фото профиля" width="15" height="15">
+                        {% endif %}
+                    {% endwith %}
+                            {% endif %}
+                            Ответ {{ i.responder.username }}
+                        </a></li>
+                    {% else %}
+                        <li><a href="{% url 'response' form.code i.response_code %}" class="bl-link">
+                            Ответ Анонима {{ forloop.counter }}
+                        </a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            <button class="btn btn-danger" id="delete-responses">Очистить ответы</button>
+            <a href="{% url 'export_csv' form.code  %}"><button class="btn btn-success" id="delete-responses">Скачать .CSV</button></a>
+            {% else %}
+            <h1 class="response-title">0 ответов</h1>
+            {% endif %}
+        </div>
+<div class="margin-top-bottom box question-box">
+    <h1 class="response-title">Сводка вопросов:</h1>
+    {% for r in responsesSummary %}
+{% if r.question.question_type == 'checkbox' or r.question.question_type == 'multiple choice' %}
+    <div class="response-summary">
+        <h3 class="response-summary-title">{{r.question.question}}</h3>
+        {% if r.answers|count > 0 or filteredResponsesSummary|get_property:r.question.question|count > 0 %}
+        <select class="question-type-select input-question-type" data-id="{{r.question.id}}" data-origin_type="{{r.question.question_type}}">
+            <option value="bar" {% if question.question_type == 'bar' %}selected{% endif %}>Столбцы</option>
+            <option value="pie" {% if question.question_type == 'pie' %}selected{% endif %}>Пирог</option>
+            <option value="doughnut" {% if question.question_type == 'doughnut' %}selected{% endif %}>Пончик</option>
+            <option value="line" {% if question.question_type == 'line' %}selected{% endif %}>Линейная</option>
+            <option value="polarArea" {% if question.question_type == 'polarArea' %}selected{% endif %}>Полярная</option>
+        </select>
+            <canvas id="myChart{{r.question.id}}" class="chart"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script>
+            Chart.defaults.global.defaultFontFamily = "Roboto";
+            Chart.defaults.global.defaultFontSize = 16;
+
+            var ctx{{r.question.id}} = document.getElementById("myChart{{r.question.id}}").getContext("2d");
+            var chartData{{r.question.id}} = {
+                labels: [{% for i in filteredResponsesSummary|get_property:r.question.question %}"{{i}}",{% endfor %}],
+                datasets: [{
+                    label: '{{ r.question.question }}',
+                    data: [{% for i in filteredResponsesSummary|get_property:r.question.question %}{{filteredResponsesSummary|get_property:r.question.question|get_property:i}},{% endfor %}],
+                    backgroundColor: [{% for _ in filteredResponsesSummary|get_property:r.question.question %}"{{0|generate_color}}",{% endfor %}],
+                    borderWidth: 1
+                }]
+            };
+
+var chart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+    type: 'bar',
+    data: chartData{{r.question.id}},
+    options: {
+        responsive: true, // Set to true for responsive behavior
+        maintainAspectRatio: false, // Set to true or false based on your preference
+        width: 400, // Set the desired width
+        height: 300, // Set the desired height
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    autoSkip: false
+                }
+            }]
+        }
+    }
+});
+
+document.querySelector('.question-type-select[data-id="{{r.question.id}}"]').addEventListener('change', function () {
+    var selectedOption = this.value;
+    chart{{r.question.id}}.destroy();
+    chart{{r.question.id}} = new Chart(ctx{{r.question.id}}, {
+        type: selectedOption,
+        data: chartData{{r.question.id}},
+        options: {
+            responsive: true, // Set to true for responsive behavior
+            maintainAspectRatio: false, // Set to true or false based on your preference
+        }
+    });
+});
+
+        </script>
+        {% else %}
+        <blockquote><i>Нет ответов</i></blockquote>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+    <div class="modal" id="customize-theme">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="close-customize-theme">&times;</span>
+            <h1 class="modal-title">Настройки цвета</h1>
+            <h3 class="modal-subtitle">Цвет фона:  <input type="color"  value = "{{form.background_color}}" list="bgColors" class="form-control-color" id="input-bg-color" /></h3>
+            <datalist id="bgColors">
+                <option value="#aed581"></option>
+                <option value="#80deea"></option>
+                <option value="#b2ebf2"></option>
+                <option value="#e1bee7"></option>
+                <option value="#d1c4e9"></option>
+                <option value="#f0f4c3"></option>
+                <option value="#f5f5f5"></option>
+                <option value="#cfd8dc"></option>
+                <option value="#e6ee9c"></option>
+                <option value="#202124"></option>
+            </datalist>
+            <h3 class="modal-subtitle">Цвет текста:  <input type="color"  value = {{form.text_color}} list="textColors" class="form-control-color" id="input-text-color" /></h3>
+            <datalist id="textColors">
+                <option value="#880000"></option>
+                <option value="#512da8"></option>
+                <option value="#1a237e"></option>
+                <option value="#005cbf"></option>
+                <option value="#0288d1"></option>
+                <option value="#00695c"></option>
+                <option value="#424242"></option>
+                <option value="#321932"></option>
+                <option value="#121212"></option>
+            </datalist>
+        </div>
+    </div>
+    <div class="modal" id="setting">
+        <div class="modal-content txt-clr">
+            <form id="setting-form">
+                <span class="modal-close-btn" id="close-setting">&times;</span>
+                <h1 class = "modal-title">Настройки</h1>
+                <h4 class="setting-preview-form small-screen"><a href="{% url 'view_form' form.code %}">Preview form here</a></h4>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Общее</h3>
+                        <input type="checkbox" id="collect_email"{% if form.collect_email %} checked {% endif %}>
+                        <label for="collect_email" class="setting-form-label">Сбор E-mail адресов.</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="is_quiz" {% if form.is_quiz %} checked {% endif %}>
+                        <label for="is_quiz" class="setting-form-label">Преобразовать в тест</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="authenticated_responder" {% if form.authenticated_responder %} checked {% endif %}>
+                        <label for="authenticated_responder" class="setting-form-label">Только авторизованные пользователи.</label>
+                    </div>
+                </div>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Опрошенные могут:</h3>
+                        <input type="checkbox" id="edit_after_submit" {% if form.edit_after_submit %}checked{% endif %}>
+                        <label for="edit_after_submit" class="setting-form-label">Вносить изменения после отправки</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="allow_view_score" {% if form.allow_view_score %}checked{% endif %}>
+                        <label for="allow_view_score" class="setting-form-label">Просмотреть свои оценки</label>
+                    </div>
+                </div>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Сообщение после отправки:</h3>
+                        <textarea rows="1" class="confirmation-msg-input edit-on-click textarea-adjust" spellcheck="false"
+                         id="comfirmation_message">{{form.confirmation_message}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Сохранить" class="form-control btn btn-save-setting" onclick="reloadPage()">
+                </div>
+            </form>
+            <form id="delete-form" class="modal-division">
+                    <input type="submit" value="Удалить" class="form-control delete-form-btn">
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="send-form">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="close-send-form">&times;</span>
+            <h1 class = "modal-title">Поделиться формой</h1>
+            <div class="modal-division">
+                <h4 class="modal-subtitle">Ссылка:</h4>
+                <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/viewform">
+            </div>
+            <button class="btn btn-submit" id="copy-url" copy-btn>Копировать</button>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById('response-search');
+        const responseList = document.querySelector('.modal-content');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            // Loop through response list items and show/hide based on search
+            Array.from(responseList.children).forEach(function(responseItem) {
+                const responseText = responseItem.textContent.toLowerCase();
+                if (responseText.includes(searchTerm)) {
+                    responseItem.style.display = 'block';
+                } else {
+                    responseItem.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

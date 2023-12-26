@@ -1,0 +1,191 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% block script %}
+<script src="{% static 'index/score.js' %}" defer></script>
+<script src="{% static 'lib/cookie.min.js' %}"></script>
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <div class="form-topnav">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+        <a href = "/">
+            <img src = "{% static 'Icon/site-icon.png' %}" alt = "Dazzle Forms Icon" class="navbar-icon form-icon" title = "Формы" />
+        </a>
+        <span class="nav-text nav-form-title input-form-title">{{form.title}}</span>
+        <div class="form-navigation center">
+            <span class="col-4 navigation" style="width: 90px"><a href = "{% url 'edit_form' form.code %}" class="link">Вопросы</a></span>
+            <span class="col-4 navigation active score-w">Оценка</span>
+            <span class="col-4 navigation" style="width: 90px"><a href = "{% url 'responses' form.code %}" class="link">Ответы</a></span>
+        </div>
+        <div class="float-right">
+            <img src="{% static 'Icon/colors.png' %}" alt="Colors icon" id="customize-theme-btn" title = "Настройки цвета" class="nav-form-menu-icon" />
+            <a href="{% url 'view_form' form.code %}">
+            <img src="{% static 'Icon/view.png' %}" alt="Preview icon" title = "Просмотр" class="nav-form-menu-icon big-screen" />
+            </a>
+            <img src="{% static 'Icon/send-form.png' %}" alt ="Send icon" title = "Поделиться" class="nav-form-menu-icon small-screen" id="send-form-btn" />
+            <img src="{% static 'Icon/settings.png' %}" alt="Settings icon" title = "Настройки" class="nav-form-menu-icon open-setting" />
+            <button class = "btn send-form-btn big-screen" title = "Поделиться" id="send-form-btn">Поделиться</button>
+        </div>
+    </div>
+    <div class="container" style="max-height: 91.8vh; overflow-y: auto; overflow-x: hidden;">
+        <span id="bg-color" style="display: none;">{{form.background_color}}</span>
+        <span id="text-color" style="display: none;">{{form.text_color}}</span>
+        <div class="margin-top-bottom box question-box" id="form-head">
+            <div class="form-title-box">
+                <h1 class="form-title edit-on-click txt-clr">{{form.title}}</h1>
+            </div>
+            <p class="form-description edit-on-click textarea-adjust txt-clr">{{form.description|linebreaksbr}}</p>
+            {% if form.collect_email %}
+            <div class="collect-email txt-clr">
+                <h3 class="question-title">Email адрес <span class="require-star">*</span></h3>
+                <input type="text" autoComplete="off" aria-label="Email адрес" disabled dir = "auto" class="require-email-edit txtColor"
+                placeholder = "Email адрес" />
+                <p class="collect-email-desc">Эта форма собирает адреса электронных почт.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% for question in form.questions.all %}
+        <div class="margin-top-bottom box question-box question" data-id="{{question.id}}">
+            <h2 class="question-title-score">{{question.question}}</h2>
+            <div class="answer-key">
+                <p class="answer-key-title">Правильный ответ:</p>
+                {% if question.question_type == "short" %}
+                    <input type="text" class="short-answer" data-id="{{question.id}}" data-question-type = "{{question.question_type}}" answer-key
+                    value="{{question.answer_key}}">
+                {% elif question.question_type == "paragraph" %}
+                    <textarea class="long-answer textarea-adjust" data-question-type = "{{question.question_type}}" answer-key
+                    data-id="{{question.id}}">{{question.answer_key}}
+                    </textarea>
+                {% elif question.question_type == "multiple choice" %}
+                    {% for i in question.choices.all %}
+                    <div class="form-group">
+                        <input type="radio" name="{{question.id}}-answer" id="choice-{{i.id}}" data-id="{{question.id}}" value="{{i.id}}" answer-key
+                        data-question_type = "{{question.question_type}}" {% if i.is_answer %} checked {% endif %}>
+                        <label for="choice-{{i.id}}">{{i.choice}}</label>
+                    </div>
+                    {% endfor %}
+                {% elif question.question_type == "checkbox" %}
+                    {% for i in question.choices.all %}
+                    <div class="form-group">
+                        <input type="checkbox" name="{{question.id}}-answer" id="choice-{{i.id}}" data-id="{{question.id}}" value="{{i.id}}"
+                        data-question_type = "{{question.question_type}}" answer-key {% if i.is_answer %} checked {% endif %}>
+                        <label for="choice-{{i.id}}">{{i.choice}}</label>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="feedback">
+                <p class="feedback-title">Комментарий:</p>
+                {% if question.feedback != None %}
+                <textarea class="long-answer textarea-adjust" data-id="{{question.id}}" name="feedback">{{question.feedback}}</textarea>
+                {% else %}
+                <textarea class="long-answer textarea-adjust" data-id="{{question.id}}" name="feedback"></textarea>
+                {% endif %}
+            </div>
+                    <div class="question-score-num">
+                <input type="number" data-id="{{question.id}}" id="score" class="input-score" value="{{question.score}}">
+                <label for="score">Баллов</label>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="question-options">
+        <a href="{% url 'view_form' form.code %}">
+            <img src = "{% static 'Icon/view.png' %}" class = "form-option-icon" title = "Просмотр" alt = "Preview icon" />
+        </a>
+        <a href="{% url 'edit_form' form.code %}">
+            <img src = "{% static 'Icon/write.png' %}" class = "form-option-icon" title = "Вопросы" alt = "Question icon" />
+        </a>
+    </div>
+    <div class="modal" id="customize-theme">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="close-customize-theme">&times;</span>
+            <h1 class="modal-title">Настройки цвета</h1>
+            <h3 class="modal-subtitle">Цвет фона:  <input type="color"  value = "{{form.background_color}}" list="bgColors" class="form-control-color" id="input-bg-color" /></h3>
+            <datalist id="bgColors">
+                <option value="#aed581"></option>
+                <option value="#80deea"></option>
+                <option value="#b2ebf2"></option>
+                <option value="#e1bee7"></option>
+                <option value="#d1c4e9"></option>
+                <option value="#f0f4c3"></option>
+                <option value="#f5f5f5"></option>
+                <option value="#cfd8dc"></option>
+                <option value="#e6ee9c"></option>
+                <option value="#202124"></option>
+            </datalist>
+            <h3 class="modal-subtitle">Цвет текста:  <input type="color"  value = {{form.text_color}} list="textColors" class="form-control-color" id="input-text-color" /></h3>
+            <datalist id="textColors">
+                <option value="#880000"></option>
+                <option value="#512da8"></option>
+                <option value="#1a237e"></option>
+                <option value="#005cbf"></option>
+                <option value="#0288d1"></option>
+                <option value="#00695c"></option>
+                <option value="#424242"></option>
+                <option value="#321932"></option>
+                <option value="#121212"></option>
+            </datalist>
+        </div>
+    </div>
+    <div class="modal" id="setting">
+        <div class="modal-content txt-clr">
+            <form id="setting-form">
+                <span class="modal-close-btn" id="close-setting">&times;</span>
+                <h1 class = "modal-title">Настройки</h1>
+                <h4 class="setting-preview-form small-screen"><a href="{% url 'view_form' form.code %}">Preview form here</a></h4>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Общее</h3>
+                        <input type="checkbox" id="collect_email"{% if form.collect_email %} checked {% endif %}>
+                        <label for="collect_email" class="setting-form-label">Сбор E-mail адресов.</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="is_quiz" {% if form.is_quiz %} checked {% endif %}>
+                        <label for="is_quiz" class="setting-form-label">Преобразовать в тест</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="authenticated_responder" {% if form.authenticated_responder %} checked {% endif %}>
+                        <label for="authenticated_responder" class="setting-form-label">Только авторизованные пользователи.</label>
+                    </div>
+                </div>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Опрошенные могут:</h3>
+                        <input type="checkbox" id="edit_after_submit" {% if form.edit_after_submit %}checked{% endif %}>
+                        <label for="edit_after_submit" class="setting-form-label">Вносить изменения после отправки</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="allow_view_score" {% if form.allow_view_score %}checked{% endif %}>
+                        <label for="allow_view_score" class="setting-form-label">Просмотреть свои оценки</label>
+                    </div>
+                </div>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Сообщение после отправки:</h3>
+                        <textarea rows="1" class="confirmation-msg-input edit-on-click textarea-adjust" spellcheck="false"
+                         id="comfirmation_message">{{form.confirmation_message}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Сохранить" class="form-control btn btn-save-setting" onclick="reloadPage()">
+                </div>
+            </form>
+            <form id="delete-form" class="modal-division">
+                    <input type="submit" value="Удалить" class="form-control btn delete-form-btn">
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="send-form">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="close-send-form">&times;</span>
+            <h1 class = "modal-title">Поделиться формой</h1>
+            <div class="modal-division">
+                <h4 class="modal-subtitle">Ссылка:</h4>
+                <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/viewform" copy-btn id="copy-url">
+            </div>
+            <button class="btn btn-submit" copy-btn>Копировать</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

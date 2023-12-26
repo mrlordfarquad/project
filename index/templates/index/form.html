@@ -1,0 +1,247 @@
+{% extends 'index/layout.html' %}
+{% block title %}
+{{form.title}} - Dazzle Forms
+{% endblock %}
+{% load static %}
+{% block script %}
+<script src="{% static 'index/form.js' %}"></script>
+<script src="{% static 'lib/cookie.min.js' %}"></script>
+{% endblock %}
+{% block body %}
+<div class = "container-fluid">
+    <div class="form-topnav">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+        <a href = "/">
+            <img src = "{% static 'Icon/site-icon.png' %}" alt = "Dazzle Forms Icon" class="navbar-icon form-icon" title = "Формы" />
+        </a>
+        <span class="nav-text nav-form-title input-form-title">{{form.title}}</span>
+        <div class="form-navigation center">
+            {% if form.is_quiz %}
+            <span class="col-4 navigation active" style="width: 90px">Вопросы</span>
+            <span class="col-4 navigation score score-w"><a href = "{% url 'score' form.code %}" class="link">Оценка</a></span>
+            <span class="col-4 navigation" style="width: 90px"><a href = "{% url 'responses' form.code %}" class="link">Ответы</a></span>
+            {% else %}
+            <span class="col-6 navigation active" style="width: 90px">Вопросы</span>
+            <span class="col-6 navigation" style="width: 90px"><a href = "{% url 'responses' form.code %}" class="link">Ответы</a></span>
+            {% endif %}
+        </div>
+        <div class="float-right">
+        {% if form.is_quiz %}
+        <a href = "{% url 'score' form.code %}" id="add-score">
+            <img src = "{% static 'Icon/score-form.png' %}" class="nav-form-menu-icon" title = "Добавить оценку" alt = "Score icon" />
+        </a>
+        {% endif %}
+            <img src="{% static 'Icon/colors.png' %}" alt="Colors icon" id="customize-theme-btn" title = "Настройки цвета" class="nav-form-menu-icon" />
+            <a href="{% url 'view_form' form.code %}">
+            <img src="{% static 'Icon/view.png' %}" alt="Preview icon" title = "Просмотр" class="nav-form-menu-icon big-screen" />
+            </a>
+            <img src="{% static 'Icon/send-form.png' %}" alt ="Send icon" title = "Поделиться" class="nav-form-menu-icon small-screen" id="send-form-btn" />
+            <img src="{% static 'Icon/settings.png' %}" alt="Settings icon" title = "Настройки" class="nav-form-menu-icon open-setting" />
+            <button class = "btn send-form-btn big-screen" title = "Поделиться" id="send-form-btn">Поделиться</button>
+        </div>
+    </div>
+    <div class="container" style="max-height: 91.8vh; overflow-y: auto; overflow-x: hidden;">
+        <span id="bg-color" style="display: none;">{{form.background_color}}</span>
+        <span id="text-color" style="display: none;">{{form.text_color}}</span>
+        <div class="margin-top-bottom box question-box" id="form-head">
+            <div class="form-title-box">
+                <input type="text" class="form-title edit-on-click input-form-title txt-clr" value="{{form.title}}">
+            </div>
+            <textarea class="form-description edit-on-click textarea-adjust txt-clr" rows="1" placeholder="Описание формы" spellCheck = "false"
+            id="input-form-description">{{form.description}}</textarea>
+            {% if form.collect_email %}
+            <div class="collect-email txt-clr">
+                <h3 class="question-title">Email адрес <span class="require-star">*</span></h3>
+                <input type="text" autocomplete="off" aria-label="Email адрес" disabled dir = "auto" class="require-email-edit txtColor"
+                placeholder = "Email адрес" />
+                <p class="collect-email-desc">Эта форма собирает адреса электронных почт.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% for question in form.questions.all %}
+        <div class="margin-top-bottom box question-box question" data-id="{{question.id}}">
+            <input type="text" data-id="{{question.id}}" class="question-title edit-on-click input-question" value="{{question.question}}">
+            <select class="question-type-select input-question-type" data-id="{{question.id}}" data-origin_type = "{{question.question_type}}">
+                <option value="short" {% if question.question_type == "short" %}selected{% endif %}>Строка</option>
+                <option value="paragraph" {% if question.question_type == "paragraph" %}selected{% endif %}>Абзац</option>
+                <option value="multiple choice" {% if question.question_type == "multiple choice" %}selected{% endif %}>Один вариант</option>
+                <option value="checkbox" {% if question.question_type == "checkbox" %}selected{% endif %}>Мультивыбор</option>
+            </select>
+            {% if question.question_type == "multiple choice" %}
+            <div class="choices" data-id="{{question.id}}">
+                {% for choice in question.choices.all %}
+                    <div class="choice">
+                        <input type="radio" id="{{choice.id}}" disabled>
+                        <label for="{{choice.id}}">
+                            <input type="text" value="{{choice.choice}}" class="edit-choice" data-id="{{choice.id}}">
+                        </label>
+                        <span class="remove-option" title = "Удалить" data-id="{{choice.id}}">&times;</span>
+                    </div>
+                {% endfor %}
+                <div class="choice">
+                    <label for = "add-choice" class="add-option" id="add-option" data-question="{{question.id}}" data-type = "{{question.question_type}}">Добавить вариант</label>
+                </div>
+            </div>
+            {% elif question.question_type == "checkbox" %}
+            <div class="choices" data-id="{{question.id}}">
+                {% for choice in question.choices.all %}
+                    <div class="choice">
+                        <input type="checkbox" id="{{choice.id}}" disabled>
+                        <label for="{{choice.id}}">
+                            <input type="text" data-id="{{choice.id}}" class="edit-choice" value="{{choice.choice}}">
+                        </label>
+                        <span class="remove-option" title="Удалить" data-id="{{choice.id}}">&times;</span>
+                    </div>
+                {% endfor %}
+                <div class="choice">
+                    <label for = "add-choice" class="add-option" id="add-option" data-question="{{question.id}}" data-type = "{{question.question_type}}">Добавить вариант</label>
+                </div>
+            </div>
+            {% elif question.question_type == "short" %}
+            <div class="answers" data-id="{{question.id}}">
+                <input type ="text" class="short-answer" disabled placeholder="Строчный текст" />
+            </div>
+            {% elif question.question_type == "paragraph" %}
+            <div class="answers" data-id="{{question.id}}">
+                <textarea class="long-answer" disabled placeholder="Абзац" ></textarea>
+            </div>
+            {% endif %}
+            <div class="choice-option">
+                <label class="toggle-switch" for="required-{{question.id}}">
+                  <input type="checkbox" class="required-checkbox" id="required-{{question.id}}" data-id="{{question.id}}" {% if question.required %}checked{% endif %}>
+                  <span class="toggle-slider"></span>
+                </label>
+                <label for="required-{{question.id}}" class="required">Обязателен*</label>
+                <div class="float-right">
+                    <img src="{% static 'Icon/black-delete.png' %}" alt="Delete question icon" class="question-option-icon delete-question" title="Удалить поле"
+                    data-id="{{question.id}}">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="question-options">
+            <img src = "{% static 'Icon/add-button.png' %}" class="form-option-icon" title = "Добавить вопрос" alt = "Add question icon" id="add-question" />
+        <a href="{% url 'view_form' form.code %}" style="color: transparent">
+            <img src = "{% static 'Icon/view.png' %}" class = "form-option-icon" title = "Просмотр" alt = "Preview icon" />
+        </a>
+            <img src = "{% static 'Icon/up-arrow.png' %}" id="scroll-to-top-btn" class="form-option-icon scroll-to-top-btn" onclick="scrollToTop()">
+        {% if form.is_quiz %}
+        <a href = "{% url 'score' form.code %}" id="add-score">
+            <img src = "{% static 'Icon/score-form.png' %}" class = "form-option-icon" title = "Добавить оценку" alt = "Score icon" />
+        </a>
+        {% endif %}
+        </div>
+    </div>
+    <div class="modal" id="customize-theme">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="close-customize-theme">&times;</span>
+            <h1 class="modal-title">Настройки цвета</h1>
+            <h3 class="modal-subtitle">Цвет фона:  <input type="color"  value = "{{form.background_color}}" list="bgColors" class="form-control-color" id="input-bg-color" /></h3>
+            <datalist id="bgColors">
+                <option value="#aed581"></option>
+                <option value="#80deea"></option>
+                <option value="#b2ebf2"></option>
+                <option value="#e1bee7"></option>
+                <option value="#d1c4e9"></option>
+                <option value="#f0f4c3"></option>
+                <option value="#f5f5f5"></option>
+                <option value="#cfd8dc"></option>
+                <option value="#e6ee9c"></option>
+                <option value="#202124"></option>
+            </datalist>
+            <h3 class="modal-subtitle">Цвет текста:  <input type="color"  value = {{form.text_color}} list="textColors" class="form-control-color" id="input-text-color" /></h3>
+            <datalist id="textColors">
+                <option value="#880000"></option>
+                <option value="#512da8"></option>
+                <option value="#1a237e"></option>
+                <option value="#005cbf"></option>
+                <option value="#0288d1"></option>
+                <option value="#00695c"></option>
+                <option value="#424242"></option>
+                <option value="#321932"></option>
+                <option value="#121212"></option>
+            </datalist>
+        </div>
+    </div>
+    <div class="modal" id="setting">
+        <div class="modal-content txt-clr">
+            <form id="setting-form">
+                <span class="modal-close-btn" id="close-setting">&times;</span>
+                <h1 class = "modal-title">Настройки</h1>
+                <h4 class="setting-preview-form small-screen"><a href="{% url 'view_form' form.code %}">Preview form here</a></h4>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Общее</h3>
+                        <input type="checkbox" id="collect_email"{% if form.collect_email %} checked {% endif %}>
+                        <label for="collect_email" class="setting-form-label">Сбор E-mail адресов.</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="is_quiz" {% if form.is_quiz %} checked {% endif %}>
+                        <label for="is_quiz" class="setting-form-label">Преобразовать в тест</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="authenticated_responder" {% if form.authenticated_responder %} checked {% endif %}>
+                        <label for="authenticated_responder" class="setting-form-label">Только авторизованные пользователи.</label>
+                    </div>
+                </div>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Опрошенные могут:</h3>
+                        <input type="checkbox" id="edit_after_submit" {% if form.edit_after_submit %}checked{% endif %}>
+                        <label for="edit_after_submit" class="setting-form-label">Вносить изменения после отправки</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="allow_view_score" {% if form.allow_view_score %}checked{% endif %}>
+                        <label for="allow_view_score" class="setting-form-label">Просмотреть свои оценки</label>
+                    </div>
+                </div>
+                <div class="modal-division">
+                    <div class="form-group">
+                        <h3 class="modal-subtitle">Сообщение после отправки:</h3>
+                        <textarea rows="1" class="confirmation-msg-input edit-on-click textarea-adjust" spellcheck="false"
+                         id="comfirmation_message">{{form.confirmation_message}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <input type="submit" value="Сохранить" class="form-control btn btn-save-setting" onclick="reloadPage()">
+                </div>
+            </form>
+            <form id="delete-form" class="modal-division">
+                    <input type="submit" value="Удалить" class="form-control btn delete-form-btn">
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="send-form">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="close-send-form">&times;</span>
+            <h1 class = "modal-title">Поделиться формой</h1>
+            <div class="modal-division">
+                <h4 class="modal-subtitle">Ссылка:</h4>
+                <input type="url" class="form-control" value="http://{{request.get_host}}/form/{{form.code}}/viewform" copy-btn id="copy-url">
+            </div>
+            <button class="btn btn-submit" copy-btn>Копировать</button>
+        </div>
+    </div>
+</div>
+    <script>
+    function scrollToTop() {
+        // Scroll smoothly to the top of the container
+        document.querySelector('.container').scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+</script>
+    <script>
+function scrollToTop() {
+    // Scroll smoothly to the top of the container
+    document.querySelector('.container').scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+</script>
+
+{% endblock %}

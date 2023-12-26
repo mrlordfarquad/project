@@ -1,0 +1,68 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% block body %}
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .aboutus {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+            height: 80vh;
+            margin: 0;
+            color: #fff;
+        }
+
+        .about-uss {
+            background-color: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        ul {
+            text-align: left;
+        }
+    </style>
+
+<body>
+<div class="container-fluid">
+    <div class="topnav">
+        <div class="nav-padding">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+            <a href="{% url 'index' %}" title="Формы">
+                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+            </a>
+            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти">
+            </a>
+        </div>
+    </div>
+    <div class="aboutus">
+    <div class="about-uss">
+        <h1>О нас</h1>
+        <p>
+            Добро пожаловать на наш сайт! Мы - группа студентов, выбравших для проекта тему "Онлайн опросов
+            и Анализа данных" и работавших над её реализацией. Познакомьтесь с теми, кто стоит за кодом:
+        </p>
+        <h2>Встречайте:</h2>
+        <ul>
+            <li><strong>Мажитов Фархат</strong> - Full-Stack Разработчик</li>
+            <li><strong>Аманаев Олжас</strong> - UX/UI Дизайнер</li>
+            <li><strong>Маратов Айдын</strong> - Backend Разработчик</li>
+        </ul>
+        <p>
+            Наша команда работает вместе, чтобы создать лучшую версию проекта на эту тему. Не стесняйтесь,
+            изучайте и сообщайте обо всех ошибках и недочётах сайта!
+        </p>
+    </div>
+        <div>
+</body>
+{% endblock %}

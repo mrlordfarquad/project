@@ -1,0 +1,70 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% block script %}
+<script src="{% static 'index/index.js' %}" defer></script>
+<script src="{% static 'lib/cookie.min.js' %}" defer></script>
+{% endblock %}
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+    <div class="topnav">
+        <div class="nav-padding">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+            <a href="{% url 'index' %}" title="Формы">
+                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+            </a>
+            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти">
+            </a>
+        </div>
+    </div>
+    <div class="container" onclick="closeSidebar()">
+        <div class="form-list">
+            <p class="forms-label">Ваши формы:</p>
+            <hr>
+            {% if forms %}
+            {% for i in forms|slice:"8"|dictsortreversed:"updatedAt" %}
+                <a href="{% url 'edit_form' i.code %}" class="form-list-link">
+                    <div class="form-box">
+                        <div class="form-list-title"><h5 class="form-list-title-text">{{ i.title }}</h5></div>
+                        <p class="form-list-timestamp">{{ i.updatedAt|default:i.createdAt }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+            {% else %}
+                <p class="no-forms-message">У вас нет созданных форм.</p>
+            {% endif %}
+        </div>
+                <div class="right-align">
+                <button class="green-button" onclick="location.href='{% url 'form_list' %}'">Список форм</button>
+            </div>
+    </div>
+    <div class="create-form" style="margin-top: 30px;" onclick="closeSidebar()">
+        <div class="container">
+            <p class="forms-label">Создать форму</p>
+            <hr>
+            <div class="form-template-box" id="create-blank-form">
+                <img src="{% static 'Icon/create-form.png' %}" alt="Пустая форма" title="Пустая форма">
+                <span class="form-template-label">Пустая форма<p class="descrip">Форма без заданных полей и цветов.</p></span>
+            </div>
+            <div class="form-template-box big-screen" id="create-contact-form">
+                <img src="{% static 'Template/contact.png' %}" alt="Контактная информация" title="Контактная информация">
+                <span class="form-template-label">Контактная информация<p class="descrip">Форма для сбора информации.</p></span>
+            </div>
+            <div class="form-template-box big-screen" id="create-customer-feedback">
+                <img src="{% static 'Template/customer-feedback.png' %}" alt="Форма обратной связи" title="Форма обратной связи">
+                <span class="form-template-label">Форма обратной связи<p class="descrip">Форма для отправки сообщений.</p></span>
+            </div>
+            <div class="form-template-box big-screen" id="create-event-registration">
+                <img src="{% static 'Template/event.png' %}" alt="Регистрация на мероприятие" title="Регистрация на мероприятие">
+                <span class="form-template-label">Регистрация на мероприятие<p class="descrip">Форма для регистрации.</p></span>
+            </div>
+            <div class="form-template-box big-screen" id="create-social-survey">
+                <img src="{% static 'Template/survey.png' %}" alt="Социальный опрос" title="Социальный опрос">
+                <span class="form-template-label">Социальный опрос<p class="descrip">Форма для проведения опроса.</p></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

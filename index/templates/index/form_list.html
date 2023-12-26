@@ -1,0 +1,112 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% block script %}
+<script src="{% static 'index/index.js' %}" defer></script>
+<script src="{% static 'lib/cookie.min.js' %}" defer></script>
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="topnav nav-effect">
+            <div class="nav-padding">
+                <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+                <a href="{% url 'index' %}" title="Forms">
+                    <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+                </a>
+                <span class="nav-text" title="Forms"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Logout">
+                </a>
+            </div>
+            <div class="header-search">
+                <input type="text" id="form-search-input" placeholder="Введите текст для поиска по списку...">
+                <button type="button" onclick="searchForms()">Поиск</button>
+            </div>
+        </div>
+        <img src="{% static 'Icon/delete.png' %}" alt="Delete Icon" style="cursor: pointer; margin: 10px; width: 30px; height: 30px;" class="navbar-icon float-right delete-icon" title="Delete" onclick="showDeleteOptions()">
+        <div class="container">
+                <form id="delete-forms-form" action="{% url 'form_list' %}" method="post" onsubmit="showDeleteOptions()">
+                    <div class="delete-nav" id="delete-options" style="display: none;">
+                        <button type="submit" class="delete-form-list">Удалить выделенное</button>
+                        <p><button onclick="selectAllForms()" type="button" class="select-all-btn">Выделить все</button></p>
+                        <p><button onclick="reselectAllForms()" type="button" class="reselect-all-btn">Убрать выделение</button></p>
+                    </div>
+                    {% csrf_token %}
+                {% if forms %}
+                    <div class="form-list" style="background-color: #1a1a1a; margin-top: 20px;">
+                        {% for i in forms|dictsortreversed:"updatedAt" %}
+                        <a href="{% url 'edit_form' i.code %}" class="form-list-link">
+                            <div class="form-box">
+                                <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                                <input type="checkbox" name="selected_forms[]" class="form-checkbox" style="display: none; position: absolute; top: 10px; left: 10px;" value="{{ i.id }}">
+                                {% if i.createdAt == i.updatedAt %}
+                                <p class="form-list-timestamp">{{i.createdAt}}</p>
+                                {% else %}
+                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="no-forms-message">У вас нет созданных форм. <a href="{% url 'index' %}">Создать форму</a></p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteOptions = document.getElementById('delete-options');
+
+        window.showDeleteOptions = function () {
+            deleteOptions.style.display = deleteOptions.style.display === 'block' ? 'none' : 'block';
+            var checkboxes = document.querySelectorAll('.form-checkbox');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.style.display = deleteOptions.style.display === 'block' ? 'block' : 'none';
+            });
+        };
+
+        window.selectAllForms = function () {
+            var checkboxes = document.querySelectorAll('.form-checkbox');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = true;
+            });
+        };
+
+        window.reselectAllForms = function () {
+            var checkboxes = document.querySelectorAll('.form-checkbox');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = false;
+            });
+        };
+
+        var formLinks = document.querySelectorAll('.form-list-link');
+        formLinks.forEach(function (formLink) {
+            formLink.addEventListener('click', function (event) {
+                var checkboxes = document.querySelectorAll('.form-checkbox');
+                if (deleteOptions.style.display === 'block') {
+                    event.preventDefault();
+                    var checkbox = formLink.querySelector('.form-checkbox');
+                    checkbox.checked = !checkbox.checked;
+                }
+            });
+        });
+        window.searchForms = function () {
+            var searchInput = document.getElementById('form-search-input').value.toLowerCase();
+            var formLinks = document.querySelectorAll('.form-list-link');
+
+            formLinks.forEach(function (formLink) {
+                var formTitle = formLink.querySelector('.form-list-title-text').textContent.toLowerCase();
+                var checkbox = formLink.querySelector('.form-checkbox');
+
+                if (formTitle.includes(searchInput)) {
+                    formLink.style.display = 'block';
+                    checkbox.style.display = deleteOptions.style.display === 'block' ? 'block' : 'none';
+                } else {
+                    formLink.style.display = 'none';
+                    checkbox.style.display = 'none';
+                }
+            });
+        };
+    });
+</script>
+{% endblock %}

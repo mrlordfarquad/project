@@ -1,0 +1,22 @@
+    <div class="sidebar" id="sidebar">
+        <span class="sidebar-close" onclick="closeSidebar()">←</span>
+        <div class="user-info"><h1 class="nickname">{{ request.user }}</h1></div>
+        <a href="{% url 'index' %}">Главная</a>
+        <a href="{% url 'edit_profile' %}">Профиль</a>
+        <a href="{% url 'about_us' %}">О нас</a>
+        <a href="{% url 'contact_us' %}">Связаться с нами</a>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var sidebar = document.getElementById('sidebar');
+
+        window.closeSidebar = function () {
+            sidebar.style.left = '-250px';
+        };
+
+        window.toggleSidebar = function () {
+            var sidebarLeft = parseInt(getComputedStyle(sidebar).left);
+            sidebar.style.left = sidebarLeft === 0 ? '-250px' : '0';
+        };
+    });
+</script>
