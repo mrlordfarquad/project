@@ -6,13 +6,26 @@
 {% endblock %}
 {% block body %}
 <div class="container-fluid">
-    <form class="container" method="POST" action="{% url 'submit_form' form.code %}" autocomplete="off">
+    <div class="topnav">
+        <div class="nav-padding">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+            <a href="{% url 'index' %}" title="Формы">
+                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+            </a>
+            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти">
+            </a>
+        </div>
+    </div>
+    <form class="container main-topnav" method="POST" action="{% url 'submit_form' form.code %}" autocomplete="off">
         <span id="bg-color" style="display: none;">{{form.background_color}}</span>
         <span id="text-color" style="display: none;">{{form.text_color}}</span>
         {% csrf_token %}
         <div class="margin-top-bottom box question-box">
             <div class="form-title-box">
                 <h1 class="form-title txtClr">{{form.title}}</h1>
+                <p class="required-info">* Обязателен</p>
             </div>
             <div class="form-description txtClr">{{form.description|linebreaksbr}}</div>
         </div>
@@ -25,17 +38,42 @@
         {% for question in form.questions.all %}
         <div class="margin-top-bottom box question-box">
             <h1 class="question-title txtClr">{{question.question}} {% if question.required %}<span class="require-star">*</span>{% endif %}</h1>
-            {% if question.question_type == "short" %}
-                <input type="text" name="{{question.id}}" class="short-answer" placeholder = "Your answer" {% if question.required %} required {% endif %}>
+            {% if question.question_type == "title" %}
+            {% elif question.question_type == "short" %}
+                <input type="text" name="{{question.id}}" maxlength="64" class="short-answer" placeholder="Ваш ответ" {% if question.required %} required {% endif %}>
+            {% elif question.question_type == "range slider" %}
+                <input type="range" id="slider" 
+                    min="{% if question.max_value < 0 %}{{ question.max_value }}{% else %}0{% endif %}" 
+                    max="{% if question.max_value < 0 %}0{% else %}{{ question.max_value }}{% endif %}" 
+                    value="" 
+                    class="slider" 
+                    {% if question.required %} required {% endif %}>
+                <input type="number" id="numberInput" 
+                    min="{% if question.max_value < 0 %}{{ question.max_value }}{% else %}0{% endif %}" 
+                    name="{{question.id}}" 
+                    max="{% if question.max_value < 0 %}0{% else %}{{ question.max_value }}{% endif %}" 
+                    value="" 
+                    class="edit-choice" 
+                    {% if question.required %} required {% endif %}>
+                <label>из {% if question.max_value < 0 %}0{% else %}{{ question.max_value }}{% endif %}</label>
             {% elif question.question_type == "paragraph" %}
-                <textarea name="{{question.id}}" placeholder="Your answer" class="long-answer textarea-adjust" {% if question.required %} required {% endif %}></textarea>
+                <textarea name="{{question.id}}" placeholder="Ваш ответ" maxlength="2000" class="long-answer textarea-adjust" {% if question.required %} required {% endif %}></textarea>
             {% elif question.question_type == "multiple choice" %}
-                {% for choice in question.choices.all %}
-                <div class="multiple-choice">
-                    <input type="radio" name="{{question.id}}" id="{{choice.id}}" {% if question.required %} required {% endif %} value="{{choice.id}}">
-                    <label for="{{choice.id}}" class="txtClr">{{choice.choice}}</label>
-                </div>
-                {% endfor %}
+                {% if question.is_list %}
+                    <select class="select1" name="{{question.id}}" {% if question.required %} required {% endif %}>
+                        <option class="option1" value="" selected disabled>Выбрать вариант</option>
+                        {% for choice in question.choices.all %}
+                        <option value="{{choice.id}}" id="{{choice.id}}">{{choice.choice}}</option>
+                        {% endfor %}
+                    </select>
+                {% else %}
+                    {% for choice in question.choices.all %}
+                    <div class="multiple-choice">
+                        <input type="radio" name="{{question.id}}" id="{{choice.id}}" {% if question.required %} required {% endif %} value="{{choice.id}}">
+                        <label for="{{choice.id}}" class="txtClr">{{choice.choice}}</label>
+                    </div>
+                    {% endfor %}
+                {% endif %}
             {% elif question.question_type == "checkbox" %}
             {% for choice in question.choices.all %}
                 <div class="multiple-choice">
@@ -44,10 +82,77 @@
                 </div>
                 {% endfor %}
             {% endif %}
+            {% if question.is_skip %}
+            <p>
+            <label for="required-{{question.id}}">
+                <input type="checkbox" class="" id="skip-{{question.id}}" name="is_skipped_{{question.id}}" value="True" onchange="document.getElementById('hidden-skip-{{question.id}}').value = this.checked ? 'True' : 'False'">
+            </label>
+            <label for="skip-{{question.id}}" title="Ваш ответ на этот вопрос не будет учитываться в рейтинге">Не учитывать в статистике</label>
+            </p>
+            <input type="hidden" id="hidden-skip-{{question.id}}" name="is_skipped_{{question.id}}" value="False">
+            {% endif %}
         </div>
         {% endfor %}
+        {% if user == form.creator %}
+        <div class="margin-top-bottom box question-box creator-custom-fields" style="display: none;">
+            <h1 class="question-title txtClr">Пользовательские данные (необязательно)</h1>
+            <h3 class="modal-subtitle txtClr">Имя пользователя:</h3>
+            <input type="text" name="custom_username" class="short-answer" placeholder="Имя пользователя">
+            <h3 class="modal-subtitle txtClr">Email:</h3>
+            <input type="email" name="custom_email" class="short-answer" placeholder="Email">
+            <p>
+            <select name="custom_gender" class="select1">
+                <option value="">Выберите пол</option>
+                <option value="M">Мужской</option>
+                <option value="F">Женский</option>
+                <option value="O">Другой</option>
+            </select>
+            </p>
+            <h3 class="modal-subtitle txtClr">Дата рождения:</h3>
+            <input type="date" name="custom_birth_date" class="short-answer" placeholder="Дата рождения">
+            <p>
+            <select name="custom_city" class="select1">
+                <option value="">Выберите город</option>
+                {% for city_code, city_name in form.creator.city_info.CITY_CHOICES %}
+                <option value="{{ city_code }}">{{ city_name }}</option>
+                {% endfor %}
+            </select>
+            </p>
+            <p>
+            <select name="custom_med" class="select1">
+                <option value="">Выберите медцентр</option>
+                {% for med_center in med_centers %}
+                    <option value="{{ med_center.med_center }}">{{ med_center.med_center }} ({{ med_center.get_region_display }})</option>
+                {% endfor %}
+            </select>
+            </p>
+            <div class="datetime-fields">
+                <h3 class="modal-subtitle txtClr">Дата и время отправки:</h3>
+                <input type="date" name="custom_submit_date" class="short-answer">
+                <input type="time" name="custom_submit_time" class="short-answer">
+            </div>
+        </div>
+
+        <script>
+        function toggleCustomFields() {
+            var customFields = document.querySelector('.creator-custom-fields');
+            if (customFields.style.display === 'none') {
+                customFields.style.display = 'block';
+            } else {
+                customFields.style.display = 'none';
+            }
+        }
+        </script>
+        {% endif %}
+        
         <div class="margin-top-bottom">
+            {% if user == form.creator %}
+            <button type="button" class="btn btn-submit" onclick="toggleCustomFields()">
+                Настроить пользовательские данные
+            </button>
+            {% endif %}
             <input type="submit" value="Отправить" class="btn btn-submit">
+            <button type="button" class="clear-form-btn btn btn-submit float-right" onclick="clearForm()">Очистить форму</button>
         </div>
     </form>
     {% if user == form.creator %}
@@ -70,5 +175,40 @@
             }
         });
     });
+    var sliders = document.querySelectorAll('.question-box input[type="range"]');
+
+    sliders.forEach(function(slider) {
+        slider.addEventListener('input', function() {
+            var numberInput = slider.closest('.question-box').querySelector('input[type="number"]');
+            numberInput.value = slider.value;
+        });
+
+        var numberInput = slider.closest('.question-box').querySelector('input[type="number"]');
+        numberInput.addEventListener('input', function() {
+            var value = numberInput.value;
+            var max = parseInt(slider.max);
+            var min = parseInt(slider.min);
+
+            if (value < min) {
+                value = min;
+            } else if (value > max) {
+                value = max;
+            }
+
+            slider.value = value;
+        });
+    });
+
+    function clearForm() {
+        var form = document.querySelector('form');
+        var inputs = form.querySelectorAll('input:not([type="submit"]):not([type="hidden"]), textarea, select');
+        inputs.forEach(function(input) {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = false;
+            } else {
+                input.value = '';
+            }
+        });
+    }
 </script>
 {% endblock %}

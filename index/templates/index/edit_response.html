@@ -34,10 +34,10 @@
             <h1 class="question-title txtClr" oncopy = "return false">{{question.question}} {% if question.required %}<span class="require-star">*</span>{% endif %}</h1>
             {% endif %}
             {% if question.question_type == "short" %}
-                <input type="text" name="{{question.id}}" class="short-answer" placeholder = "Your answer" {% if question.required %} required {% endif %}
+                <input type="text" name="{{question.id}}" class="short-answer" placeholder = "Ваш ответ" {% if question.required %} required {% endif %}
                 value="{{response|get_response:question.pk}}">
             {% elif question.question_type == "paragraph" %}
-                <textarea name="{{question.id}}" placeholder="Your answer" class="long-answer textarea-adjust"
+                <textarea name="{{question.id}}" placeholder="Ваш ответ" class="long-answer textarea-adjust"
                 {% if question.required %} required {% endif %}>{{response|get_response:question.pk}}</textarea>
             {% elif question.question_type == "multiple choice" %}
                 {% for choice in question.choices.all %}
@@ -61,6 +61,19 @@
                     <label for="{{choice.id}}" class="txtClr">{{choice.choice}}</label>
                 </div>
                 {% endfor %}
+            {% elif question.question_type == "range slider" %}
+            <input type="range" id="slider" min="0" max="{{ question.max_value }}" value="{{response|get_response:question.pk|default:0}}" class="slider" {% if question.required %} required {% endif %}>
+            <input type="number" id="numberInput" min="0" name="{{question.id}}" max="{{ question.max_value }}" value="{{response|get_response:question.pk|default:0}}" class="edit-choice" {% if question.required %} required {% endif %}>
+            <label>из {{ question.max_value }}</label>
+            {% endif %}
+            {% if question.is_skip %}
+            <p>
+            <label for="required-{{question.id}}">
+                <input type="checkbox" class="" id="skip-{{question.id}}" name="is_skipped_{{question.id}}" value="True" onchange="document.getElementById('hidden-skip-{{question.id}}').value = this.checked ? 'True' : 'False'" {% if response|get_skip:question.pk %}checked{% endif %}>
+            </label>
+            <label for="skip-{{question.id}}" class="required" title="Ваш ответ на этот вопрос не будет учитываться в рейтинге">Не учитывать в статистике</label>
+            </p>
+            <input type="hidden" id="hidden-skip-{{question.id}}" name="is_skipped_{{question.id}}" value="{% if response|get_skip:question.pk %}True{% else %}False{% endif %}">
             {% endif %}
         </div>
         {% endfor %}

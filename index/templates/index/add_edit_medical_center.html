@@ -1,0 +1,60 @@
+{% extends "index/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="topnav">
+        <div class="nav-padding">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+            <a href="{% url 'index' %}" title="Формы">
+                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+            </a>
+            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+        </div>
+    </div>
+
+    <div class="container main-topnav">
+        <div class="form-list">
+            <p class="forms-label">{% if center %}Редактировать{% else %}Добавить{% endif %} медицинский центр</p>
+            <hr>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="region">Регион:</label>
+                    <select name="region" id="region" class="form-control" required>
+                        <option value="">Выберите регион</option>
+                        {% for code, name in city_choices %}
+                            <option value="{{ code }}" {% if center.region == code %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="med_center">Название медцентра:</label>
+                    <input type="text" name="med_center" id="med_center" class="form-control" 
+                           value="{{ center.med_center }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адрес:</label>
+                    <input type="text" name="address" id="address" class="form-control" 
+                           value="{{ center.address }}" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="green-button">
+                        {% if center %}Сохранить{% else %}Добавить{% endif %}
+                    </button>
+                    <a href="{% url 'manage_medical_centers' %}" class="cancel-med-btn">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

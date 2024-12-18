@@ -1,0 +1,215 @@
+{% extends "index/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="topnav">
+        <div class="nav-padding">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+            <a href="{% url 'index' %}" title="Формы">
+                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+            </a>
+            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти">
+            </a>
+        </div>
+    </div>
+
+    <div class="container main-topnav" onclick="closeSidebar()">
+        <div class="form-list">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="forms-label">Медицинские центры</p>
+                <button class="green-button" onclick="window.location.href='{% url 'add_medical_center' %}'">
+                    <i class="bi bi-plus-lg"></i> Добавить медцентр
+                </button>
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% if med_centers %}
+                <div class="med-centers-grid">
+                    {% for center in med_centers %}
+                        <div class="form-box" onclick="editCenter({{ center.id }})">
+                            <div class="form-box-content">
+                                <div class="form-box-header">
+                                    <h5 class="form-list-title-text">{{ center.med_center }}</h5>
+                                    <div class="form-actions" onclick="event.stopPropagation();">
+                                        <button class="action-btn" onclick="editCenter({{ center.id }})" title="Редактировать">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="action-btn" onclick="deleteCenter({{ center.id }})" title="Удалить">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-box-info">
+                                    <div class="info-item">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                        <span>{{ center.get_region_display }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <i class="bi bi-building-fill"></i>
+                                        <span>{{ center.address|default:"-" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-forms-message">У вас нет добавленных медицинских центров.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.med-centers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 15px;
+    padding: 20px 0;
+}
+
+.form-box {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.form-box:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-box-content {
+    padding: 15px;
+}
+
+.form-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-list-title-text {
+    color: #fff;
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.form-box-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+.info-item i {
+    color: #00a000;
+    font-size: 14px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    color: #fff;
+}
+
+.form-actions {
+    display: flex;
+    gap: 2px;
+}
+
+.green-button {
+    background-color: #009300;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.green-button:hover {
+    background-color: #00a000;
+}
+
+.forms-label {
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+    margin: 0;
+}
+
+.no-forms-message {
+    text-align: center;
+    color: #9aa0a6;
+    padding: 40px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .med-centers-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+function editCenter(centerId) {
+    window.location.href = `/edit-medical-center/${centerId}/`;
+}
+
+function deleteCenter(centerId) {
+    event.stopPropagation();
+    if (confirm('Вы уверены, что хотите удалить этот медицинский центр?')) {
+        const formData = new FormData();
+        formData.append('action', 'delete');
+        formData.append('center_id', centerId);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+        
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.ok ? window.location.reload() : Promise.reject('Ошибка при удалении'))
+        .catch(error => alert(error));
+    }
+}
+
+function closeSidebar() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+{% endblock %} 

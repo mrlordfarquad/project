@@ -1,0 +1,278 @@
+{% extends 'index/layout.html' %}
+{% load static %}
+{% block body %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+    body,html {
+        height: 100%;
+    }
+    body {
+        background: #202124;   
+        font-family: 'Montserrat', sans-serif;
+    }
+    .wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 6%;
+    }
+    .user-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: left;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 40px;
+        width: 650px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 2px 20px -5px rgba(0,0,0,0.5);
+    }
+    .edit-card {
+        align-items: center;
+        background-color: #2d2f34;
+        border-radius: 12px;
+        padding: 40px;
+        width: 700px;
+        position: relative;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        margin-bottom: 50px;
+    }
+
+    .info form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+    }
+    .info label {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .info input, .info select, .info textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 10px;
+        background-color: #3b3e43;
+        color: #fff;
+        font-size: 14px;
+    }
+    .info input[type="submit"] {
+        background-color: #008000;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .info input[type="submit"]:hover {
+        background-color: #008000;
+    }
+    .info select {
+        font-size: 14px;
+    }
+    .green-button {
+        background-color: #008000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .green-button:hover {
+        background-color: #008000;
+    }
+    .user-card:before {
+        content: '';
+        position: absolute;
+        height: 500%;
+        width: 173px;
+        background: #008000;
+        top: -120px;
+        left: -250px;
+        z-index: 0;
+        transform: rotate(17deg);
+    }
+    
+    .user-card-img {
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        z-index: 3;
+    }
+    
+    .user-card-img img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    
+    .user-card-info {
+        text-align: center;
+        color: black;
+    }
+    
+    .user-card-info h2 {
+        font-size: 24px;
+        margin: 0;
+        margin-bottom: 10px;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 3px;
+    }
+    
+    .user-card-info p {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    .user-card-info p span {
+        font-weight: 700;
+        margin-right: 10px;
+    }
+    .edit-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #000;
+        cursor: pointer;
+    }
+    @media only screen and (min-width: 768px) {
+        .user-card {
+            flex-direction: row;
+            align-items: flex-start;
+        }   
+        .user-card-img {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+        
+        .user-card-info {
+            text-align: left;
+        }
+    }
+
+    @media (max-width: 767px){
+        .wrapper{
+            padding-top: 3%;
+        }
+        .user-card:before {
+            width: 300%;
+            height: 200px;
+            transform: rotate(0);
+        }
+        .user-card-info h2 {
+            margin-top: 25px;
+            font-size: 35px;
+        }
+        .user-card-info p span {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+    }
+</style>
+<body>
+    <div class="topnav">
+        <div class="nav-padding">
+            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+            <a href="{% url 'index' %}" title="Формы">
+                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+            </a>
+            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+            <a href="{% url 'logout' %}">
+                <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти">
+            </a>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="user-card">
+            <div class="user-card-img">
+                {% with profile_image=user.image_info.first %}
+                    {% if profile_image.image %}
+                        <img id="profileImage" src="{{ profile_image.image.url }}" alt="Фото профиля">
+                    {% else %}
+                        <img id="profileImage" src="{% static 'Icon\user.jpg' %}" alt="Фото профиля">
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="user-card-info">
+            {% if request.user.is_superuser %}<i class="bi bi-pencil-square edit-icon" onclick="toggleEditProfile(event)"></i>{% endif %}
+              <h2>{{ user }}</h2>
+              <p><span>Статус:</span>{% if user.is_superuser %}Руководитель{% elif user.is_staff %}Тренер{% else %}Пользователь{% endif %}</p>
+              <p><span>Email:</span>{{ user.email }}</p>
+              <p><span>Дата регистрации:</span>{{ user.date_joined }}</p>
+              <p><span>Регион:</span> {% if user_city.city %}{{ user.city_info.get_city_display }}{% else %}Не указано{% endif %}</p>
+              <p><span>Медцентр:</span> 
+                {% if user.med_info and user.med_info.med_center %} 
+                    {{ user.med_info.med_center }} 
+                {% else %} 
+                    Не указано 
+                {% endif %}
+              </p>
+              <p><span>Дата рождения:</span> {% if user.dateofbirth %}{{ user.dateofbirth.date_of_birth|date:'Y-m-d' }} ({{ user.dateofbirth.age }}){% else %}Не указано{% endif %}</p>
+              <p><span>Пол:</span> 
+                {% if user.usergender.gender == 'O' %}
+                Не указано
+                {% elif user.usergender.gender == 'M' %}
+                Мужской
+                {% elif user.usergender.gender == 'F' %}
+                Женский
+                {% else %}
+                Не указано
+                {% endif %}
+              </p>
+              {% if request.user.desc_info %}<p><span>О себе:</span> {{ request.user.desc_info.desc }}</p>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="wrapper">
+            <div id="edit_profile_page" class="info edit-card" style="display: none">
+                {% if request.user.is_superuser %}
+                    <form method="post" action="{% url 'update_user_status' user.id %}">
+                        {% csrf_token %}
+                        <select name="status" id="status">
+                            <option value="superuser" {% if user.is_superuser %}selected{% endif %}>Руководитель</option>
+                            <option value="staff" {% if user.is_staff and not user.is_superuser %}selected{% endif %}>Тренер</option>
+                            <option value="user" {% if not user.is_staff and not user.is_superuser %}selected{% endif %}>Пользователь</option>
+                        </select>
+                        <input type="submit" value="Обновить">
+                    </form>
+                    <form method="post" action="{% url 'update_med_center' user.id %}">
+                        {% csrf_token %}
+                        <label for="med_center">Выберите медцентр:</label>
+                        <select name="med_center" id="med_center">
+                            {% regroup med_centers by get_region_display as region_list %}
+                            {% for region in region_list %}
+                                <optgroup label="{{ region.grouper }}">
+                                    {% for center in region.list %}
+                                        <option value="{{ center.med_center }}" 
+                                            {% if user.med_info.med_center == center.med_center %}selected{% endif %}>
+                                            {{ center.med_center }}
+                                        </option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Обновить">
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleEditProfile(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            var imageEditContainer = document.getElementById("edit_profile_page");
+            imageEditContainer.style.display = (imageEditContainer.style.display === 'none' || imageEditContainer.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+</body>
+{% endblock %}

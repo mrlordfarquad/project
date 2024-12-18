@@ -7,6 +7,56 @@ body{
     scroll-behavior: smooth;
 }
 
+.select1 {
+    padding: 8px 12px; 
+    font-size: 16px;
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff; 
+    cursor: pointer; 
+}
+
+.option1 {
+    padding: 8px 12px; 
+    font-size: 16px; 
+}
+
+.slider {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 25%;
+    height: 10px; 
+    background: #d5d5d5; 
+    outline: none; 
+    opacity: 0.7; 
+    transition: opacity 0.15s ease-in-out; 
+    border-radius: 5px; 
+    margin-bottom: 10px;
+}
+
+.slider:hover {
+    opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 15px; 
+    height: 15px; 
+    background: #009300; 
+    cursor: pointer; 
+    border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+    background: #009300;
+    cursor: pointer; 
+    border-radius: 50%; 
+}
+
 .green-button {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: inline-block;
@@ -18,6 +68,7 @@ body{
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  font-family: "Roboto Condensed";
 }
 
 
@@ -46,12 +97,19 @@ body{
     margin-bottom: 0.5rem;
 }
 
+.main-topnav {
+    margin-top: 65px;
+}
 
-.topnav{
+.topnav {
     display: inline-block;
     vertical-align: top;
     width: 100vw;
     background-color: #292A2D;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 998;
 }
 
 .navbar-icon{
@@ -99,7 +157,7 @@ body{
     transition: left 0.3s ease;
     padding-top: 60px;
     color: #ffffff;
-    z-index: 2;
+    z-index: 1000;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
 }
@@ -137,7 +195,7 @@ body{
     font-size: 28px;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; /* Скрытие текста и отображение многоточия, если никнейм слишком длинный */
+    text-overflow: ellipsis;
 }
 
 label{
@@ -227,7 +285,66 @@ textarea{
     overflow-y: auto; /* Enable vertical scrollbar when the content overflows */
     overflow-x: hidden; /* Hide horizontal scrollbar if not needed */
 }
+/* Ограничецццние на высоту таблицы */
+.responses-table {
+    max-height: 600px; /* Ограничение на высоту таблицы */
+    max-width: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #ccc;
+}
+.responses-table::-webkit-scrollbar {
+    width: 10px;
+    height: 10px
+}
 
+.text-table {
+    max-height: 100%;
+    max-width: 250px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.responses-table::-webkit-scrollbar-thumb {
+    background-color: #bbbbbb; /* Set the color of the thumb */
+    border-radius: 3px; /* Set the border radius of the thumb */
+    transition: transform 0.3s ease;
+}
+
+.responses-table::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+.table-settings {
+    font-family: Arial, sans-serif;
+}
+.table-field {
+    margin-top: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.table-field-choice {
+    margin-bottom: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:hover {
+    background-color: #f1f1f1;
+}
+/* Ограничение на высотуыыы таблицы */
 .no-forms-message {
     text-align: center;
     font-family: "Google Sans";
@@ -263,6 +380,15 @@ html::-webkit-scrollbar {
   background-color: transparent;
 }
 
+.page::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .page::-webkit-scrollbar {
+    width: 12px;
+}
+
+
     .form-list::-webkit-scrollbar {
         width: 12px;
     }
@@ -289,6 +415,15 @@ html::-webkit-scrollbar {
     position: relative;
 }
 
+.section-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 5px 0;
+    border: none;
+    background: none;
+}
+
 .form-list-title-text {
     text-align: center;
     overflow: hidden;
@@ -304,6 +439,11 @@ html::-webkit-scrollbar {
 .form-list-timestamp {
     margin: 5px;
     color: darkgrey;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
 }
 
 .form-list-link {
@@ -317,17 +457,22 @@ html::-webkit-scrollbar {
     font-family: "Roboto Condensed";
 }
 
-.form-topnav{
+.form-topnav {
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 1px;
     overflow: hidden;
     background-color: #292A2D;
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw;
+    z-index: 1000;
 }
 
 .nav-form-title{
-    width: 300px;
+    width: auto;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -365,12 +510,29 @@ html::-webkit-scrollbar {
     border: 1px solid #ddd;
     padding: 10px 12px;
     cursor: pointer;
-    float: left;
     margin: 0.2px 15px;
 }
 
 .question-box{
     background-color: #FFF;
+}
+
+.input-submit-btn {
+    border-bottom: none;
+    background-color: green;
+    cursor: pointer;
+    width: 200px;
+    border: none;
+    height: 30px;
+    color: white;
+    transition: 0.3s;
+}
+
+.input-submit-btn:hover {
+    border-bottom: none;
+    background-color: rgb(0, 161, 0);
+    cursor: pointer;
+    width: 200px;
 }
 
 .form-title{
@@ -629,6 +791,7 @@ html::-webkit-scrollbar {
     right: 15%;
     padding: 3px;
     border-radius: 10px;
+    z-index: 1000;
 }
 
 .question-options img {
@@ -680,6 +843,28 @@ html::-webkit-scrollbar {
     border: 1px solid #ccc;
     height: 30px;
     float: right;
+}
+
+.filter-select{
+    width: calc(15% - 8px);
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    height: 30px;
+}
+
+.filter-choice-select {
+    font-size: 1.1rem;
+    border: 1px solid #ccc;
+    height: 70px;
+    width: auto;
+    min-width: fit-content;
+}
+
+.label-choice {
+    line-height: 0em; /* Настройте значение, чтобы оно совпадало с в��сотой select */
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 70px; /* Расстояние между label и select */
 }
 
 .question-type-select option:checked{
@@ -838,8 +1023,11 @@ html::-webkit-scrollbar {
 }
 
 .navigation{
-    margin-top: 15px;
-    text-align: center;
+    margin-top: 60px;
+}
+
+.share-btn {
+    margin-right: 30px;
 }
 
 .form-navigation .active{
@@ -1049,6 +1237,11 @@ blockquote span{
     margin: auto;
 }
 
+.chart {
+    width: 600px;
+    height: 300px;
+}
+
 .header-search {
     margin-top: -5px;
     text-align: center;
@@ -1071,9 +1264,38 @@ blockquote span{
     border-radius: 5px;
     cursor: pointer;
 }
+
+.delete-question-icon {
+    font-size: 25px;
+}
+
+.green {
+    color: green;
+}
+.yellow {
+    color: orange;
+}
+.red {
+    color: red;
+}
+@media only screen and (max-width: 430px){
+    .float-right{
+        float: left;
+    }
+}
+@media only screen and (max-width: 1200px){
+    .navigation{
+        margin-top: 15px;
+        width: auto;
+    }
+}
 @media only screen and (max-width: 878px){
     .nav-form-title{
         width: 100px;
+    }
+
+    .navigation{
+        margin-top: 15px;
     }
 
     .form-list-link, .form-box{
@@ -1118,4 +1340,65 @@ blockquote span{
     .small-screen{
         display: none;
     }
+}
+
+.clear-form-container {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.clear-form-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clear-form-btn:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.file-input {
+    cursor: pointer;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #3b3e43;
+    color: #ffffff;
+    font-size: 14px;
+    border: none;
+}
+
+.custom-file-upload:hover {
+    transition: background-color 0.3s ease-in-out;
+    background-color: #484b51;
+}
+
+.cancel-med-btn {
+    background-color: #4a4a4a;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+    font-family: "Roboto Condensed";
+}
+
+.cancel-med-btn:hover {
+    background-color: #666666;
+    transform: translateY(-1px);
 }

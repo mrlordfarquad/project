@@ -23,7 +23,7 @@
             </div>
         </div>
         <img src="{% static 'Icon/delete.png' %}" alt="Delete Icon" style="cursor: pointer; margin: 10px; width: 30px; height: 30px;" class="navbar-icon float-right delete-icon" title="Delete" onclick="showDeleteOptions()">
-        <div class="container">
+        <div class="container main-topnav">
                 <form id="delete-forms-form" action="{% url 'form_list' %}" method="post" onsubmit="showDeleteOptions()">
                     <div class="delete-nav" id="delete-options" style="display: none;">
                         <button type="submit" class="delete-form-list">Удалить выделенное</button>
@@ -36,12 +36,12 @@
                         {% for i in forms|dictsortreversed:"updatedAt" %}
                         <a href="{% url 'edit_form' i.code %}" class="form-list-link">
                             <div class="form-box">
-                                <div class="form-list-title"><h5 class="form-list-title-text">{{i.title}}</h5></div>
+                                <div class="form-list-title"><h5 class="form-list-title-text">{% if i.title|length > 30 %}{{ i.title|slice:":30" }}...{% else %}{{ i.title }}{% endif %}</h5></div>
                                 <input type="checkbox" name="selected_forms[]" class="form-checkbox" style="display: none; position: absolute; top: 10px; left: 10px;" value="{{ i.id }}">
                                 {% if i.createdAt == i.updatedAt %}
-                                <p class="form-list-timestamp">{{i.createdAt}}</p>
+                                <p class="form-list-timestamp descrip">{{i.createdAt}}</p>
                                 {% else %}
-                                <p class="form-list-timestamp">{{i.updatedAt}}</p>
+                                <p class="form-list-timestamp descrip">{{i.updatedAt}}</p>
                                 {% endif %}
                             </div>
                         </a>

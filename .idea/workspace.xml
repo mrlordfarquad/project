@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b52d75a2-33d9-457e-be2f-4927a0af6519" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/google-form-clone-master.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/form/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/form/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/static/index/Hur_lUI_.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/static/index/form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/static/index/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/static/index/responses.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/static/index/score.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/static/index/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/index/static/index/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/aboutUs.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/edit-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/edit-profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/edit_response.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/edit_response.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/form.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/form_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/form_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/form_response.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/form_response.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/layout.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/layout.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/loginregister.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/loginregister.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/response.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/response.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/responses.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/responses.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/score.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/score.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/sidebar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templates/index/view_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/index/templates/index/view_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templatetags/count.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/templatetags/count.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templatetags/get_property.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/templatetags/get_property.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/templatetags/get_response.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/templatetags/get_response.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/index/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2pWoDMjrsp5xrVvDlMbhXfkvtZe" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-67fca87a943a-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.11799.259" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b52d75a2-33d9-457e-be2f-4927a0af6519" name="Changes" comment="" />
+      <created>1732891073388</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732891073388</updated>
+    </task>
+    <servers />
+  </component>
+</project>

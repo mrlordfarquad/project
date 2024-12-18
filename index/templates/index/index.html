@@ -1,7 +1,7 @@
 {% extends 'index/layout.html' %}
 {% load static %}
 {% block script %}
-<script src="{% static 'index/index.js' %}" defer></script>
+<script src="{% static 'index/indexx.js' %}" defer></script>
 <script src="{% static 'lib/cookie.min.js' %}" defer></script>
 {% endblock %}
 {% load static %}
@@ -19,16 +19,17 @@
             </a>
         </div>
     </div>
-    <div class="container" onclick="closeSidebar()">
+    <div class="container main-topnav" onclick="closeSidebar()">
+        {% if user.is_superuser or user.is_staff %}
         <div class="form-list">
-            <p class="forms-label">Ваши формы:</p>
+            <p class="forms-label">Формы:</p>
             <hr>
             {% if forms %}
-            {% for i in forms|slice:"8"|dictsortreversed:"updatedAt" %}
+            {% for i in forms|dictsortreversed:"updatedAt"|slice:":8" %}
                 <a href="{% url 'edit_form' i.code %}" class="form-list-link">
                     <div class="form-box">
-                        <div class="form-list-title"><h5 class="form-list-title-text">{{ i.title }}</h5></div>
-                        <p class="form-list-timestamp">{{ i.updatedAt|default:i.createdAt }}</p>
+                        <div class="form-list-title"><h5 class="form-list-title-text">{% if i.title|length > 30 %}{{ i.title|slice:":30" }}...{% else %}{{ i.title }}{% endif %}</h5></div>
+                        <p class="form-list-timestamp descrip">{{ i.updatedAt|default:i.createdAt }}</p>
                     </div>
                 </a>
             {% endfor %}
@@ -36,10 +37,12 @@
                 <p class="no-forms-message">У вас нет созданных форм.</p>
             {% endif %}
         </div>
-                <div class="right-align">
-                <button class="green-button" onclick="location.href='{% url 'form_list' %}'">Список форм</button>
-            </div>
+        <div class="right-align">
+            <button class="green-button" onclick="window.location.href='/form/list'">Список форм</button>
+        </div>
+        {% endif %}
     </div>
+    {% if user.is_superuser %}
     <div class="create-form" style="margin-top: 30px;" onclick="closeSidebar()">
         <div class="container">
             <p class="forms-label">Создать форму</p>
@@ -61,10 +64,11 @@
                 <span class="form-template-label">Регистрация на мероприятие<p class="descrip">Форма для регистрации.</p></span>
             </div>
             <div class="form-template-box big-screen" id="create-social-survey">
-                <img src="{% static 'Template/survey.png' %}" alt="Социальный опрос" title="Социальный опрос">
-                <span class="form-template-label">Социальный опрос<p class="descrip">Форма для проведения опроса.</p></span>
+                <img src="{% static 'Template/survey.png' %}" alt="Оценка медцентра" title="Оценка медцентра">
+                <span class="form-template-label">Оценка медцентра<p class="descrip">Форма для проведения опроса.</p></span>
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}

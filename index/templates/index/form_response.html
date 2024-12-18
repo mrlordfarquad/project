@@ -9,9 +9,13 @@
     <span id="text-color" style="display: none;">{{form.text_color}}</span>
     <div class="margin-top-bottom box box-shadow bg-white">
         <h1 class="form-title txtClr">{{form.title}}</h1>
-        <p class="text-label margin-left-right" style="margin-left: 10px;">{{form.confirmation_message}}</p>
+        {% if message %}
+            <p class="text-label margin-left-right" style="margin-left: 10px;">{{message}}</p>
+        {% else %}
+            <p class="text-label margin-left-right" style="margin-left: 10px;">{{form.confirmation_message}}</p>
+        {% endif %}
         {% if form.edit_after_submit %}
-        <a href="{% url 'edit_response' form.code code %}" class="edit-response-link add-option" style="font-size: 102%;">Edit response</a>
+        <a href="{% url 'edit_response' form.code code %}" class="edit-response-link add-option score-title" style="font-size: 102%;">Редактировать ответ</a>
         {% endif %}
         {% if form.is_quiz and form.allow_view_score %}
         <div class="modal-division">

@@ -1,455 +1,352 @@
 {% extends 'index/layout.html' %}
 {% load static %}
 {% block body %}
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-    @import url("https://fonts.googleapis.com/css?family=Permanent+Marker");
-@import url("https://fonts.googleapis.com/css?family=Product+Sans");
-@import url("https://fonts.googleapis.com/css?family=Google+Sans");
-
-body {
-    font-family: "Product Sans";
-    font-family: "Google Sans";
-}
-
-.info {
-    display: block;
-    height: 370px;
-}
-
-.profile-img {
-    width: 200px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.page {
-    background-color: #202124;
-    width: 1000px;
-    text-align: center;
-    border-radius: 10px;
-  	box-shadow: 0 7px 28px rgba(255, 255, 255, 0.16);
-    padding-top: 20px;
-}
-
-input  {
-    background-color: #23262e00;
-    border: none;
-    border-bottom: 1px green solid;
-    width: 300px;
-    height: 30px;
-    color: white;
-    cursor: text;
-    transition: 0.3s;
-}
-
-input:hover {
-    background-color: #23262e00;
-    border: none;
-    border-bottom: 1px green solid;
-    width: 320px;
-    height: 30px;
-    color: white;
-}
-
-select {
-    background-color: #23262e00;
-    border: none;
-    color: white;
-    border-bottom: 1px green solid;
-    width: 300px;
-    transition: 0.3s;
-    cursor: pointer;
-    height: 30px;
-}
-
-
-select:focus {
-    background-color: #23262e00;
-    border: none;
-    color: rgb(83, 83, 83);
-    border-bottom: 1px green solid;
-    width: 320px;
-}
-
-label {
-    display: block;
-    color: rgb(255, 255, 255);
-}
-
-input[type="file"] {
-    width: 300px;
-    border-bottom: none;
-    cursor: pointer;
-}
-
-input[type="date"] {
-    color: white;
-}
-
-input[type="date"]:hover {
-    color: rgb(83, 83, 83);
-}
-
-.thumb {
-    width: 400px;
-}
-
-.link-input {
-    width: 180px;
-}
-
-.link-input:hover {
-    width: 200px;
-}
-
-#imageURLContainer {
-    display: none;
-}
-
-form{
-    margin: 20px;
-}
-
-label{
-    margin: 20px;
-}
-
-input[type="submit"] {
-    border-bottom: none;
-    background-color: green;
-    cursor: pointer;
-    width: 200px;
-}
-
-input[type="submit"]:hover {
-    border-bottom: none;
-    background-color: rgb(0, 161, 0);
-    cursor: pointer;
-    width: 200px;
-}
-
-    input[type="reset"] {
-        border-bottom: none;
-        background-color: red;
-        cursor: pointer;
-        width: 200px;
+    body,html {
+        height: 100%;
     }
-
-    input[type="reset"]:hover {
-        border-bottom: none;
-        cursor: pointer;
-        width: 300px;
-        background-color: darkred;
-        transition: ease-in-out 0.3s;
-        width: 200px;
-    }
-input::-webkit-inner-spin-button,
-input::-webkit-calendar-picker-indicator {
-    background-color: white;
-    border-radius: 5px;
-    margin-right: 5px;
-}
-
-.profile-img{
-    width: 200px;
-    height: 200px;
-}
-@media only screen and (max-width: 700px) {
     body {
-        background-color: #23262e;
-        font-family: "Product Sans";
-        font-family: "Google Sans";
+        background: #202124;   
+        font-family: 'Montserrat', sans-serif;
     }
-
-    input::-webkit-inner-spin-button,
-input::-webkit-calendar-picker-indicator {
-    background-color: white;
-    border-radius: 5px;
-    margin-right: 5px;
-}
-
-    * {
-        overflow-x: hidden;
+    .wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 6%;
     }
-
-    .info {
-        display: block;
-        height: 500px;
+    .user-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: left;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 40px;
+        width: 650px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 2px 20px -5px rgba(0,0,0,0.5);
     }
-
-    .profile-img {
-        width: px;
-        border-radius: 50%;
-        cursor: pointer;
+    .edit-card {
+        align-items: center;
+        background-color: #2d2f34;
+        border-radius: 12px;
+        padding: 40px;
+        width: 700px;
+        position: relative;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        color: #fff;
+        margin-bottom: 50px;
     }
-
-    .page {
-        background-color: rgba(59, 59, 59, 0.397);
+    .icon-without-navbar {
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+    .info form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+    }
+    .info label {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    .info input, .info select, .info textarea {
         width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 10px;
+        background-color: #3b3e43;
+        color: #fff;
+        font-size: 14px;
+    }
+    .info input[type="submit"] {
+        background-color: #008000;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .info input[type="submit"]:hover {
+        background-color: #008000;
+    }
+    .info select {
+        font-size: 14px;
+    }
+    .green-button {
+        background-color: #008000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .green-button:hover {
+        background-color: #008000;
+    }
+    .user-card:before {
+        content: '';
+        position: absolute;
+        height: 500%;
+        width: 173px;
+        background: #008000;
+        top: -120px;
+        left: -250px;
+        z-index: 0;
+        transform: rotate(17deg);
+    }
+    
+    .user-card-img {
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;   
+        z-index: 3;
+    }
+    
+    .user-card-img img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    
+    .user-card-info {
         text-align: center;
+        color: black;
     }
-
-    input  {
-        background-color: #23262e00;
-        border: none;
-        border-bottom: 1px green solid;
-        width: 300px;
-        height: 30px;
-        color: white;
-        cursor: text;
-        transition: 0.3s;
+    
+    .user-card-info h2 {
+        font-size: 24px;
+        margin: 0;
+        margin-bottom: 10px;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 3px;
     }
-
-    input:hover {
-        background-color: #23262e00;
-        border: none;
-        border-bottom: 1px green solid;
-        width: 320px;
-        height: 30px;
-        color: white;
+    
+    .user-card-info p {
+        font-size: 14px;
+        margin-bottom: 2px;
     }
-
-    label {
-        display: block;
-        color: rgb(255, 255, 255);
+    .user-card-info p span {
+        font-weight: 700;
+        margin-right: 10px;
     }
-
-    input[type="file"] {
-        width: 300px;
-        border-bottom: none;
+    .edit-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #000;
         cursor: pointer;
     }
-
-    input[type="date"] {
-        color: white;
+    @media only screen and (min-width: 768px) {
+        .user-card {
+            flex-direction: row;
+            align-items: flex-start;
+        }   
+        .user-card-img {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+        
+        .user-card-info {
+            text-align: left;
+        }
     }
 
-    input[type="date"]:hover {
-        color: rgb(83, 83, 83);
+    @media (max-width: 767px){
+        .wrapper{
+            padding-top: 3%;
+        }
+        .user-card:before {
+            width: 300%;
+            height: 200px;
+            transform: rotate(0);
+        }
+        .user-card-info h2 {
+            margin-top: 25px;
+            font-size: 35px;
+        }
+        .user-card-info p span {
+            display: block;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
     }
-
-    .thumb {
-        width: 400px;
-    }
-
-    .link-input {
-        width: 180px;
-    }
-
-    .link-input:hover {
-        width: 200px;
-    }
-
-    #imageURLContainer {
-        display: none;
-    }
-
-    input[type="submit"] {
-        border-bottom: none;
-        background-color: green;
-        cursor: pointer;
-        width: 200px;
-    }
-
-    input[type="submit"]:hover {
-        border-bottom: none;
-        background-color: rgb(0, 161, 0);
-        cursor: pointer;
-        width: 200px;
-    }
-
-    input[type="reset"] {
-        border-bottom: none;
-        background-color: red;
-        cursor: pointer;
-        width: 200px;
-    }
-
-    input[type="reset"]:hover {
-        border-bottom: none;
-        cursor: pointer;
-        width: 300px;
-        font-weight: bold;
-        width: 200px;
-    }
-}
 </style>
 <body>
-    <div class="topnav">
-        <div class="nav-padding">
-            <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
-            <a href="{% url 'index' %}" title="Формы">
-                <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
-            </a>
-            <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
-            <a href="{% url 'logout' %}">
-                <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти">
-            </a>
-        </div>
-    </div>
-    <center>
-    <div class="page" style="height: 145vh;">
-        {% with profile_image=user.image_info.first %}
-            {% if profile_image %}
-                <img class="profile-img" id="profileImage" src="{{ profile_image.image_url }}" alt="Фото профиля" onclick="toggleImageURLContainer(event)">
-            {% else %}
-                <img class="profile-img" id="profileImage" src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png" alt="Фото профиля" onclick="toggleImageURLContainer(event)">
-            {% endif %}
-        {% endwith %}
-        <br>
-            <a class="nickname">{{ request.user }}</a>
-        <div id="imageURLContainer">
-            <form method="post" action="{% url 'change_profile_image' %}">
-                {% csrf_token %}
-                <label for="imageURL">Вставьте ссылку на фотографию: </label>
-                <input class="link-input" type="text" id="imageURL" name="imageURL" placeholder="Вставьте ссылку">
-                <button class="green-button" type="submit">Изменить фото</button>
-            </form>
-            {% if user.is_authenticated %}
-                {% with profile_image=user.image_info.first %}
-                    {% if profile_image %}
-                        <form method="post" action="{% url 'delete_profile_image' %}">
-                            {% csrf_token %}
-                            <button class="green-button" type="submit">Удалить фото</button>
-                        </form>
-                    {% endif %}
-                {% endwith %}
-            {% endif %}
-        </div>
-            <br>
-            <br>
-            <div class="info">
-                    <label for="nick">Введите ваш новый ник:</label>
-                    <form method="post" action="{% url 'change_username' %}">
-                        {% csrf_token %}
-                        <input type="text" name="username" id="id_username" value="{{ request.user.username }}" required>
-                        <input type="submit" value="Применить">
-                    </form>
-                    <br>
-                    <br>
-                    <label for="nick">Введите вашу новую почту:</label>
-                    <form method="post" action="{% url 'change_email' %}">
-                        {% csrf_token %}
-                        <input type="text" name="email" id="id_email" value="{{ request.user.email }}" required>
-                        <input type="submit" value="Применить">
-                    </form>
-                    <br>
-                    <br>
-                    <form method="post" action="{% url 'change_gender' %}">
-                        {% csrf_token %}
-                        <label for="gender">Укажите ваш пол:</label>
-                        <select name="gender" id="gender">
-                            {% if user.usergender.gender == 'O' %}
-                                <option value="O" selected>Не указано</option>
-                                <option value="M">Мужской</option>
-                                <option value="F">Женский</option>
-                            {% elif user.usergender.gender == 'M' %}
-                                <option value="M" selected>Мужской</option>
-                                <option value="F">Женский</option>
-                                <option value="O">Не указано</option>
-                            {% elif user.usergender.gender == 'F' %}
-                                <option value="F" selected>Женский</option>
-                                <option value="M">Мужской</option>
-                                <option value="O">Не указано</option>
-                            {% else %}
-                                <option value="O" selected>Не указано</option>
-                                <option value="M">Мужской</option>
-                                <option value="F">Женский</option>
-                            {% endif %}
-                        </select>
-                        <input type="submit" value="Применить">
-                    </form>
-                    <br>
-                    <br>
-                    <br>
-                    <form method="post" action="{% url 'change_date_of_birth' %}">
-                        {% csrf_token %}
-                        {% if user.dateofbirth.date_of_birth %}
-                            <label for="date_of_birth">Укажите дату рождения:</label>
-                            <input type="date" id="date_of_birth" name="date_of_birth" value="{{ user.dateofbirth.date_of_birth|date:'Y-m-d' }}">
-                        {% else %}
-                            <label for="date_of_birth">Укажите дату рождения:</label>
-                            <input type="date" id="date_of_birth" name="date_of_birth" value="">
-                        {% endif %}
-                        <input type="submit" value="Применить">
-                    </form>
-                    <form method="post" action="{% url 'delete_date_of_birth' %}">
-                        {% csrf_token %}
-                        {% if user.dateofbirth.date_of_birth %}
-                            <input type="submit" value="Удалить">
-                        {% endif %}
-                    </form>
-                    <br>
-                    <br>
-                    <label for="">Ваш город:</label>
-<form method="post" action="{% url 'change_city' %}">
-    {% csrf_token %}
-<select id="City" name="City">
-    <option value="" {% if not user_city.city %}selected{% endif %}>{% if not user.city_info.city %}Выбрать город {% else %} {{ user.city_info.city }} {% endif %}</option>
-    <option value="Алматы" {% if user_city.city == 'Алматы' %}selected{% endif %}>Алматы</option>
-    <option value="Нур-Султан" {% if user_city.city == 'nur-sultan' %}selected{% endif %}>Нур-Султан</option>
-    <option value="karaganda" {% if user_city.city == 'karaganda' %}selected{% endif %}>Караганда</option>
-    <option value="Шымкент" {% if user_city.city == 'shymkent' %}selected{% endif %}>Шымкент</option>
-    <option value="Актобе" {% if user_city.city == 'aktobe' %}selected{% endif %}>Актобе</option>
-    <option value="Семей" {% if user_city.city == 'semey' %}selected{% endif %}>Семей</option>
-    <option value="Атырау" {% if user_city.city == 'atyrau' %}selected{% endif %}>Атырау</option>
-    <option value="Павлодар" {% if user_city.city == 'pavlodar' %}selected{% endif %}>Павлодар</option>
-    <option value="Уральск" {% if user_city.city == 'uralsk' %}selected{% endif %}>Уральск</option>
-    <option value="Усть-Каменогорск" {% if user_city.city == 'ust-kamenogorsk' %}selected{% endif %}>Усть-Каменогорск</option>
-    <option value="Кокшетау" {% if user_city.city == 'kokshetau' %}selected{% endif %}>Кокшетау</option>
-    <option value="Костанай" {% if user_city.city == 'kostanay' %}selected{% endif %}>Костанай</option>
-    <option value="Петропавловск" {% if user_city.city == 'petropavlovsk' %}selected{% endif %}>Петропавловск</option>
-    <option value="Орал" {% if user_city.city == 'oral' %}selected{% endif %}>Орал</option>
-    <option value="Талдыкорган" {% if user_city.city == 'taldykorgan' %}selected{% endif %}>Талдыкорган</option>
-</select>
-    <input type="submit" value="Применить">
-</form>
+    {% if request.user.is_staff %}
+        <div class="topnav">
+            <div class="nav-padding">
+                <span class="nav-ham" id="nav-ham" onclick="toggleSidebar()">&#9776;</span>
+                <a href="{% url 'index' %}" title="Формы">
+                    <img src="{% static 'Icon/site-icon.png' %}" alt="Dazzle Forms Icon" class="navbar-icon form-icon">
+                </a>
+                <span class="nav-text" title="Формы"><a href="{% url 'index' %}" class="nav-link">Dazzle Forms</a></span>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon" title="Выйти из аккаунта">
+                </a>
             </div>
+        </div>
+    {% endif %}
+    {% if not request.user.is_staff %}
+        <a href="{% url 'logout' %}">
+            <img src="{% static 'Icon/logout.png' %}" alt="Logout Icon" class="navbar-icon float-right logout-icon icon-without-navbar" title="Выйти из аккаунта">
+        </a>
+    {% endif %}
+    <div class="wrapper">
+        <div class="user-card">
+            <div class="user-card-img">
+                {% with profile_image=user.image_info.first %}
+                    {% if profile_image and profile_image.image %}
+                        <img id="profileImage" src="{{ profile_image.image.url }}" alt="Фото профиля">
+                    {% else %}
+                        <img id="profileImage" src="{% static 'Icon\user.jpg' %}" alt="Фото профиля">
+                    {% endif %}
+                {% endwith %}       
+            </div>
+            <div class="user-card-info">
+            <i class="bi bi-pencil-square edit-icon" onclick="toggleEditProfile(event)"></i>
+              <h2>{{ request.user }}</h2>
+              <p><span>Статус:</span>{% if user.is_superuser %}Руководитель{% elif user.is_staff %}Тренер{% else %}Пользователь{% endif %}</p>
+              <p><span>Email:</span>{{ request.user.email }}</p>
+              <p><span>Дата регистрации:</span>{{ request.user.date_joined }}</p>
+              <p><span>Регион:</span> {% if user_city.city %}{{ user.city_info.get_city_display }}{% else %}Не указано{% endif %}</p>
+              <p><span>Медцентр:</span> 
+                {% if user.med_info and user.med_info.med_center %} 
+                    {{ user.med_info.med_center }} 
+                {% else %} 
+                    Не указано 
+                {% endif %}
+              </p>
+              <p><span>Дата рождения:</span> {% if user.dateofbirth %}{{ user.dateofbirth.date_of_birth|date:'Y-m-d' }} ({{ user.dateofbirth.age }}){% else %}Не указано{% endif %}</p>
+              <p><span>Пол:</span> 
+                {% if user.usergender.gender == 'O' %}
+                Не указано
+                {% elif user.usergender.gender == 'M' %}
+                Мужской
+                {% elif user.usergender.gender == 'F' %}
+                Женский
+                {% else %}
+                Не указано
+                {% endif %}
+              </p>
+              {% if request.user.desc_info %}<p><span>О себе:</span> {{ request.user.desc_info.desc }}</p>{% endif %}
+            </div>
+        </div>
     </div>
-</center>
+    <div class="page">
+        <div class="wrapper">
+            <div id="edit_profile_page" class="info edit-card" style="display: none">
+                <div id="imageURLContainer">
+                    <form method="post" action="{% url 'change_profile_image' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="id_username">Выберите файл изображения</label>
+                        <label for="imageFile" class="custom-file-upload" id="fileLabel">
+                            Файл не выбран
+                        </label>
+                        <input type="file" id="imageFile" name="imageFile" accept="image/*" style="display: none;" onchange="document.getElementById('fileLabel').innerText = this.files[0].name">
+                        <button class="green-button" type="submit">Изменить фото</button>
+                    </form>
+                    {% if user.is_authenticated %}
+                        {% with profile_image=user.image_info.first %}
+                            {% if profile_image %}
+                                <form method="post" action="{% url 'delete_profile_image' %}">
+                                    {% csrf_token %}
+                                    <button class="green-button" type="submit">Удалить фото</button>
+                                </form>
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                </div>
+                <form method="post" action="{% url 'change_username' %}">
+                    {% csrf_token %}
+                    <label for="id_username">Введите ваш новый ник:</label>
+                    <input type="text" name="username" id="id_username" value="{{ request.user.username }}" required>
+                    <input type="submit" value="Применить">
+                </form>
+                <form method="post" action="{% url 'change_email' %}">
+                    {% csrf_token %}
+                    <label for="id_email">Введите вашу новую почту:</label>
+                    <input type="email" name="email" id="id_email" value="{{ request.user.email }}" required>
+                    <input type="submit" value="Применить">
+                </form>
+                <form method="post" action="{% url 'change_gender' %}">
+                    {% csrf_token %}
+                    <label for="gender">Укажите ваш пол:</label>
+                    <select name="gender" id="gender">
+                        <option value="O" {% if user.usergender.gender == 'O' %}selected{% endif %}>Не указано</option>
+                        <option value="M" {% if user.usergender.gender == 'M' %}selected{% endif %}>Мужской</option>
+                        <option value="F" {% if user.usergender.gender == 'F' %}selected{% endif %}>Женский</option>
+                    </select>
+                    <input type="submit" value="Применить">
+                </form>
+                <form method="post" action="{% url 'change_date_of_birth' %}">
+                    {% csrf_token %}
+                    <label for="date_of_birth">Укажите дату рождения:</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth" value="{{ user.dateofbirth.date_of_birth|date:'Y-m-d' }}" style="color: white;" class="calendar-icon-white">
+                    <input type="submit" value="Применить">
+                </form>
+                <style>
+                    input[type="date"]::-webkit-calendar-picker-indicator {
+                        filter: invert(1);
+                    }
+                </style>
+                <form method="post" action="{% url 'change_desc' %}">
+                    {% csrf_token %}
+                    <label for="desc">Описание:</label>
+                    <textarea name="desc" id="desc" rows="4">{{ request.user.desc_info.desc }}</textarea>
+                    <input type="submit" value="Применить">
+                </form>
+                <form method="post" action="{% url 'edit_profile' %}">
+                    {% csrf_token %}
+                    <label for="City">Ваш город:</label>
+                    <select id="City" name="City">
+                        <option value="" {% if not user_city.city %}selected{% endif %}>Выбрать город</option>
+                        {% for value, display in city_choices %}
+                            <option value="{{ value }}" {% if user_city.city == value %}selected{% endif %}>{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Применить">
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 <script>
     function handleFileSelect(evt) {
-    var files = evt.target.files; // FileList object
+    var files = evt.target.files;
 
-    // Loop through the FileList and render image files as thumbnails.
     for (var i = 0, f; f = files[i]; i++) {
 
-      // Only process image files.
       if (!f.type.match('image.*')) {
         continue;
       }
 
       var reader = new FileReader();
 
-      // Closure to capture the file information.
       reader.onload = (function(theFile) {
         return function(e) {
-          // Render thumbnail.
           var span = document.createElement('span');
           span.innerHTML = ['<img class="thumb" src="', e.target.result,
                             '" title="', escape(theFile.name), '"/>'].join('');
           document.getElementById('list').insertBefore(span, null);
 
-          // Ссылка на изображение
           var img = document.getElementById('file');
           img.src = theFile.name;
         };
       })(f);
 
-      // Read in the image file as a data URL.
       reader.readAsDataURL(f);
     }
   }
 
   document.getElementById('files').addEventListener('change', handleFileSelect, false);
-
-    function toggleImageURLContainer(event) {
-      event.stopPropagation(); // Остановка всплытия события
-      var imageURLContainer = document.getElementById("imageURLContainer");
-      imageURLContainer.style.display = (imageURLContainer.style.display === 'none') ? 'block' : 'none';
-    }
 
     function changeProfileImage() {
       var imageUrl = document.getElementById("imageURL").value;
@@ -457,13 +354,28 @@ input::-webkit-calendar-picker-indicator {
 
       if (imageUrl) {
         profileImage.src = imageUrl;
-        // Optional: You can hide the input field and button after changing the image
         document.getElementById("imageURLContainer").style.display = 'none';
       } else {
         alert("Введите ссылку на новое фото!");
       }
     }
+    function validateImageUrl() {
+        var imageUrl = document.getElementById("imageURL").value;
+        var validImageUrlPattern = /\.(jpeg|jpg|png|gif)$/i;
+        
+        if (!validImageUrlPattern.test(imageUrl)) {
+            alert("Введите корректную ссылку на изображение (.jpeg, .jpg, .png, .gif)!");
+            return false; 
+        }
+        return true; 
+    }
+    function toggleEditProfile(event) {
+        if (event) {
+            event.stopPropagation();  // останавливает всплытие события
+        }
+        var imageEditContainer = document.getElementById("edit_profile_page");
+        imageEditContainer.style.display = (imageEditContainer.style.display === 'none' || imageEditContainer.style.display === '') ? 'block' : 'none';
+    }
   </script>
-
-
 {% endblock %}
+

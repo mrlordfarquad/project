@@ -16,18 +16,19 @@ body {
 	flex-direction: column;
 	font-family: 'Montserrat', sans-serif;
 	height: 100vh;
-	margin: -20px 0 50px;
+	margin: 0;
+	padding: 50px 0;
 }
 
 h1 {
 	font-weight: bold;
 	margin: 0;
     color: white;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .olzhas {
-    font-size: 190%
+    font-size: 200%
 }
 
 h2 {
@@ -37,13 +38,13 @@ h2 {
 .pole {
 	font-size: 18px;
 	font-weight: 300;
-	line-height: 20px;
+	line-height: 24px;
 	letter-spacing: 0.5px;
-	margin: 20px 0 30px;
+	margin: 25px 0 35px;
 }
 
 span {
-	font-size: 12px;
+	font-size: 13px;
     color: #979797;
     margin-bottom: 50px;
 }
@@ -52,7 +53,7 @@ a {
 	color: #979797;
 	font-size: 14px;
 	text-decoration: none;
-	margin: 15px 0;
+	margin: 20px 0;
 }
 
 button {
@@ -60,13 +61,14 @@ button {
 	border: 1px solid rgb(0, 147, 0);
 	background-color: rgb(0, 147, 0);
 	color: #FFFFFF;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
-	padding: 12px 45px;
+	padding: 14px 50px;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	transition: transform 80ms ease-in;
     cursor: pointer;
+    margin-top: 15px;
 }
 
 button:active {
@@ -88,30 +90,38 @@ form {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	padding: 0 50px;
+	padding: 0 60px;
 	height: 100%;
 	text-align: center;
+}
+
+.question-reg-select{
+	color: #757575;
+	background-color: #202124;
+    border: 1px solid #ffffff00;
+    height: 35px;
 }
 
 input {
 	background-color: #202124;
 	border: none;
-	padding: 12px 15px;
-	margin: 8px 0;
+	padding: 14px 18px;
+	margin: 10px 0;
 	width: 100%;
     color: white;
+    font-size: 14px;
 }   
 
 .container {
 	background-color: #202124;
-	border-radius: 10px;
+	border-radius: 15px;
   	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
 	position: relative;
 	overflow: hidden;
-	width: 768px;
+	width: 850px;
 	max-width: 100%;
-	min-height: 480px;
+	min-height: 600px;
 }
 
 .form-container {
@@ -200,7 +210,7 @@ input {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	padding: 0 40px;
+	padding: 0 50px;
 	text-align: center;
 	top: 0;
 	height: 100%;
@@ -227,7 +237,7 @@ input {
 }
 
 .social-container {
-	margin: 20px 0;
+	margin: 25px 0;
 }
 
 .social-container a {
@@ -236,16 +246,16 @@ input {
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-	margin: 0 5px;
-	height: 40px;
-	width: 40px;
+	margin: 0 7px;
+	height: 45px;
+	width: 45px;
 }
 
 .footer-copy {
         bottom: 0;
         left: 0;
         width: 100%;
-        padding: 10px;
+        padding: 15px;
         font-size: 20px;
         text-align: center;
     }
@@ -264,84 +274,128 @@ input {
       top: 15px; 
       font-size: 14px;
     }
+
+    .question-reg-select {
+        color: #757575;
+        background-color: #202124;
+        border: 1px solid #ffffff00;
+        height: 35px;
+        width: 100%;
+        margin: 10px 0;
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .question-reg-select:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .question-reg-select option {
+        color: #757575;
+        background-color: #202124;
+        padding: 12px 15px;
+    }
+
+    .form-error {
+        color: #ff4444;
+        margin: 10px 0;
+        font-size: 14px;
+    }
     </style>
 </head>
 <body>
-<div class="container" id="container">
-	<div class="form-container sign-up-container">
-		<form action="{% url 'register' %}" method="post">
-            {% csrf_token %}
-			<h1 style="font-size: 25px;">Зарегистрироваться</h1>
-			<span>или используйте свой email для регистрации</span>
-			<input type="text" placeholder="Логин" name="username" required />
-			<input type="email" placeholder="Email" name="email" required />
-			<input type="password" placeholder="Пароль" name="password" required />
-			<input type="password" placeholder="Повторите пароль" name="confirmation" required />
-            <br>
-			<button>Регистрация</button>
-		</form>
-	</div>
-	<div class="form-container sign-in-container">
-		<form action="{% url 'login' %}" method="post">
-            {% csrf_token %}
-			<h1>Войти</h1>
-			<span>или используйте свой аккаунт</span>
-			<input type="text" placeholder="Логин" name="username" required />
-			<input type="password" placeholder="Пароль" name="password" required />
-            <p class="form-error">{{message}}</p>
-			<a href="{% url "password_reset" %}">Забыли пароль?</a>
-			<button>Войти</button>
-		</form>
-	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
-				<h1 class="olzhas">С возвращением!</h1>
-				<p class="pole">Можете войти</p>
-				<button class="ghost" id="signIn">Войти</button>
-			</div>
-			<div class="overlay-panel overlay-right">
-				<h1>Добро пожаловать!</h1>
-				<p class="pole">Можете зарегистрироваться</p>
-				<button class="ghost" id="signUp">Регистрация</button>
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+			<form action="{% url 'register' %}" method="post">
+				{% csrf_token %}
+				<h1 style="font-size: 28px;">Зарегистрироваться</h1>
+				<p class="form-error" id="register-error">{{message}}</p>
+				<input type="text" placeholder="Логин" name="username" required />
+				<input type="email" placeholder="Email" name="email" required />
+				<input type="password" placeholder="Пароль" name="password" required />
+				<input type="password" placeholder="Повторите пароль" name="confirmation" required />
+				<!-- Добавляем выбор региона -->
+				<select class="question-reg-select" name="region" id="region" required>
+					<option value="">Выберите регион</option>
+					{% for value, display in city_choices %}
+						<option value="{{ value }}">{{ display }}</option>
+					{% endfor %}
+				</select>
+
+				<!-- Добавляем выбор медцентра -->
+				<select class="question-reg-select" name="med_center" id="med_center" required disabled>
+					<option value="">Сначала выберите регион</option>
+				</select>
+				<br>
+				<button>Регистрация</button>
+			</form>
+		</div>
+		<div class="form-container sign-in-container">
+			<form action="{% url 'login' %}" method="post">
+				{% csrf_token %}
+				<h1>Войти в аккаунт</h1>
+				<p class="form-error" id="login-error">{{message}}</p>
+				<input type="text" placeholder="Логин" name="username" required />
+				<input type="password" placeholder="Пароль" name="password" required />
+				<a href="{% url "password_reset" %}">Забыли пароль?</a>
+				<button>Войти</button>
+			</form>
+		</div>
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-left">
+					<h1 class="olzhas">С возвращением!</h1>
+					<p class="pole">Можете войти</p>
+					<button class="ghost" id="signIn">Войти</button>
+				</div>
+				<div class="overlay-panel overlay-right">
+					<h1>Добро пожаловать!</h1>
+					<p class="pole">Можете зарегистрироваться</p>
+					<button class="ghost" id="signUp">Регистрация</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 <script>
     const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
-const container = document.getElementById('container');
+	const signInButton = document.getElementById('signIn');
+	const container = document.getElementById('container');
 
-signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
-});
+	signUpButton.addEventListener('click', () => {
+		container.classList.add("right-panel-active");
+	});
 
-signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
-});
+	signInButton.addEventListener('click', () => {
+		container.classList.remove("right-panel-active");
+	});
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var form = document.querySelector('form');
-        form.addEventListener('submit', function (event) {
-            var password = form.querySelector('input[name="password"]').value;
-            var confirmation = form.querySelector('input[name="confirmation"]').value;
-
-            if (password !== confirmation) {
-                alert('Пароли не совпадают');
-                event.preventDefault(); // Остановка отправки формы
-            } else if (password.length < 8) {
-                alert('Пароль должен содержать как минимум 8 символов');
-                event.preventDefault(); // Остановка отправки формы
-            } else if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
-                alert('Пароль должен содержать буквы и цифры');
-                event.preventDefault(); // Остановка отправки формы
-            }
-        });
-    });
+	document.getElementById('region').addEventListener('change', function() {
+		const region = this.value;
+		const medCenterSelect = document.getElementById('med_center');
+		
+		// Включаем/выключаем выбор медцентра в зависимости от выбора региона
+		medCenterSelect.disabled = !region;
+		
+		// Очищаем текущий список медцентров
+		medCenterSelect.innerHTML = '<option value="">Выберите медцентр</option>';
+		
+		if (region) {
+			// Запрашиваем список медцентров для выбранного региона
+			fetch(`/get_med_centers?region=${region}`)
+				.then(response => response.json())
+				.then(data => {
+					data.forEach(item => {
+						const option = document.createElement('option');
+						option.value = item.med_center;
+						option.textContent = `${item.med_center} (${item.address})`;
+						medCenterSelect.appendChild(option);
+					});
+				});
+		}
+	});
 </script>
-
 </body>
 </html>
 {% endblock %}
